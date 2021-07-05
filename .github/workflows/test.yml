@@ -22,6 +22,7 @@ jobs:
         ls coverage
         cat coverage/coverage-summary.json
     - name: Generating coverage badges
-      uses: jpb06/jest-badges-action@v1.3.1
+      uses: erguotou520/jest-badges-action@latest
       with:
         branches: master
+        # workingDir: packages/mock
