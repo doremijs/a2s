@@ -131,11 +131,7 @@ function commonMockWithArgs(mockFunc: keyof MockjsRandom, schema: CustomJSONSche
 }
 
 function generateOne(schema: CustomJSONSchema): JSONSchema4Type {
-  if (!schema.type) {
-    return Random.string(undefined, 4, 8)
-  }
-  const type = Array.isArray(schema.type) ? schema.type[0] : schema.type
-  switch (type) {
+  switch (schema.type) {
     case 'integer':
     case 'number':
       return commonMockWithArgs(schema.format ?? 'integer', schema)
@@ -163,7 +159,7 @@ function generateOne(schema: CustomJSONSchema): JSONSchema4Type {
         {}
       )
     default:
-      return null
+      return Random.string(undefined, 4, 8)
   }
 }
 

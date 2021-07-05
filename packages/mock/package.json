@@ -4,9 +4,10 @@
   "description": "基于JSON Schema的数据模拟库",
   "main": "lib/index.js",
   "scripts": {
-    "test": "ts-node test/index.ts",
+    "test": "jest --coverage",
     "prepublishOnly": "npm run build",
-    "build": "rm -rf lib tsconfig.build.tsbuildinfo && tsc --project tsconfig.build.json"
+    "build": "rm -rf lib tsconfig.build.tsbuildinfo && tsc --project tsconfig.build.json",
+    "test:ci": "jest --ci --runInBand --coverage"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +16,11 @@
     "mockjs": "^1.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "@types/json-schema": "^7.0.7",
     "@types/mockjs": "^1.0.3",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.5"
   }

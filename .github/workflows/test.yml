@@ -1,0 +1,22 @@
+name: Run test and coverage
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Verify Changed files
+      uses: tj-actions/verify-changed-files@v7.1
+      id: verify-changed-files
+      with:
+        files: |
+            packages/mock
+    - name: Install
+      run: yarn install
+    - name: Tests
+      run: yarn test:ci
+    - name: Generating coverage badges
+      uses: actions/jest-badges-action@v1.3.1
+        with:
+          branches: master
