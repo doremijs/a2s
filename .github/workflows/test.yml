@@ -13,6 +13,8 @@ jobs:
       run: yarn setup
     - name: Tests
       run: yarn --cwd packages/mock test:ci
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
     - name: Generating coverage badges
       uses: erguotou520/jest-badges-action@master
       with:
