@@ -1,0 +1,23 @@
+{
+  "name": "@zidong/dc-mock",
+  "version": "0.0.1",
+  "description": "基于JSON Schema的数据模拟库",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "ts-node test/index.ts",
+    "prepublishOnly": "npm run build",
+    "build": "rm -rf lib tsconfig.build.tsbuildinfo && tsc --project tsconfig.build.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "mockjs": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.7",
+    "@types/mockjs": "^1.0.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
+  }
+}

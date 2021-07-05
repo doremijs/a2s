@@ -1,0 +1,15 @@
+{
+  "name": "@zidong/dc-admin",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo 'Hello'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {}
+}
