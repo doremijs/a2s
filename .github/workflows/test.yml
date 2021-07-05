@@ -13,7 +13,7 @@ jobs:
         files: |
             packages/mock
     - name: Install
-      # if: steps.verify-changed-files.outputs.files_changed == 'true'
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: yarn setup
     - name: Tests
       run: yarn --cwd packages/mock test:ci
