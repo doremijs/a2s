@@ -2,6 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
-# if (npx lerna changed | grep '@zidong/dc-mock'); then
-#   npx lerna run --scope @zidong/dc-mock
-# fi
+if (npx lerna changed | grep '@zidong/dc-mock'); then
+  npx lerna run test:badge --scope @zidong/dc-mock
+  git add packages/mock/README.md
+fi

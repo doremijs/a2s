@@ -1,24 +1,24 @@
-name: Run mock package test and coverage
-on:
-  push:
-    # paths:
-    #   - packages/mock/**
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check out repository code
-      uses: actions/checkout@v2
-    - name: Install
-      run: yarn setup
-    - name: Tests
-      run: yarn --cwd packages/mock test:ci
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-    - name: Generating coverage badges
-      uses: erguotou520/jest-badges-action@master
-      with:
-        branches: master
-        workingDir: packages/mock
-    - name: show
-      run: tree
+# name: Run mock package test and coverage
+# on:
+#   push:
+#     # paths:
+#     #   - packages/mock/**
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Check out repository code
+#       uses: actions/checkout@v2
+#     - name: Install
+#       run: yarn setup
+#     - name: Tests
+#       run: yarn --cwd packages/mock test:ci
+#     - name: Setup tmate session
+#       uses: mxschmitt/action-tmate@v3
+#     - name: Generating coverage badges
+#       uses: erguotou520/jest-badges-action@master
+#       with:
+#         branches: master
+#         workingDir: packages/mock
+#     - name: show
+#       run: tree
