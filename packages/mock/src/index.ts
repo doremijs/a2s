@@ -111,7 +111,7 @@ export type CustomJSONSchema = JSONSchema4 &
   }
 
 /**
- * 根据json schema生成mock数据
+ * 根据 JSON Schema 生成 mock 数据
  */
 export default function mockFromSchema(schema: CustomJSONSchema): JSONSchema4Type {
   return generateOne(schema)
