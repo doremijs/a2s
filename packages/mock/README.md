@@ -5,7 +5,7 @@
 | --------------------------- | ----------------------- | ------------------------- | ----------------- |
 | ![Statements](https://img.shields.io/badge/statements-100%25-brightgreen.svg) | ![Branches](https://img.shields.io/badge/branches-77.78%25-red.svg) | ![Functions](https://img.shields.io/badge/functions-100%25-brightgreen.svg) | ![Lines](https://img.shields.io/badge/lines-100%25-brightgreen.svg) |
 
-标准的 JSON Schema 格式的数据可以直接进行mock，例如
+1标准的 JSON Schema 格式的数据可以直接进行mock，例如
 ```ts
 import mockFromSchema from '@zidong/dc-mock'
 
