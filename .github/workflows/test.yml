@@ -1,8 +1,8 @@
 name: Run mock package test and coverage
 on:
   push:
-    paths:
-      - packages/mock/**
+    # paths:
+    #   - packages/mock/**
 defaults:
   run:
     working-directory: packages/mock
@@ -16,6 +16,11 @@ jobs:
       run: yarn install
     - name: Tests
       run: yarn test:ci
+    - name: Watch
+      run: |
+        ls
+        ls coverage
+        cat coverage/coverage-summary.json
     - name: Generating coverage badges
       uses: jpb06/jest-badges-action@v1.3.1
       with:
