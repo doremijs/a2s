@@ -1,7 +1,7 @@
 name: Run test and coverage
 on: [push]
 jobs:
-  test:
+  check:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository code
@@ -15,10 +15,17 @@ jobs:
     - name: Install
       # if: steps.verify-changed-files.outputs.files_changed == 'true'
       run: yarn setup
-    - name: Tests
-      run: yarn --cwd packages/mock test:ci
-    - name: Generating coverage badges
-      uses: jpb06/jest-badges-action@v1.3.1
-      with:
-        branches: master
-        workingDir: packages/mock
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mock
+    steps:
+      - name: Tests
+        run: yarn --cwd packages/mock test:ci
+      - name: Generating coverage badges
+        uses: jpb06/jest-badges-action@v1.3.1
+        with:
+          branches: master
+          workingDir: packages/mock
