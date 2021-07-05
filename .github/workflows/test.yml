@@ -3,9 +3,6 @@ on:
   push:
     # paths:
     #   - packages/mock/**
-defaults:
-  run:
-    working-directory: packages/mock
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -13,16 +10,13 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v2
     - name: Install
-      run: yarn install
+      run: yarn setup
     - name: Tests
-      run: yarn test:ci
-    - name: Watch
-      run: |
-        ls
-        ls coverage
-        cat coverage/coverage-summary.json
+      run: yarn --cwd packages/mock test:ci
     - name: Generating coverage badges
       uses: erguotou520/jest-badges-action@master
       with:
         branches: master
-        # workingDir: packages/mock
+        workingDir: packages/mock
+    - name: show
+      run: tree
