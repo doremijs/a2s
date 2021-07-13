@@ -1,68 +1,62 @@
 import type { JSONSchema4, JSONSchema4Type } from 'json-schema';
 declare type CustomAddtionalFields = ({
     type: 'integer' | 'number';
-    format: 
-    /** 随机的自然数 */
-    'natural' | 
+    format: 'natural'
     /** 随机的整数 */
-    'integer' | 
+     | 'integer'
     /** 随机的浮点数 */
-    'float';
+     | 'float';
 } | {
     type: 'boolean';
 } | {
     type: 'string';
-    format: 
-    /** 随机字符 */
-    'character' | 
+    format: 'character'
     /** 随机字符串 */
-    'string' | 
+     | 'string'
     /** 文本 */
-    'paragraph' | 
+     | 'paragraph'
     /** 中文文本 */
-    'cparagraph' | 
+     | 'cparagraph'
     /** 随机生成一个句子，第一个单词的首字母大写 */
-    'sentence' | 
+     | 'sentence'
     /** 随机生成一段中文文本 */
-    'csentence' | 
+     | 'csentence'
     /** 随机生成一个单词 */
-    'word' | 
+     | 'word'
     /** 随机生成一个汉字 */
-    'cword' | 
+     | 'cword'
     /** 随机生成一句标题，其中每个单词的首字母大写 */
-    'title' | 
+     | 'title'
     /** 随机生成一句中文标题 */
-    'ctitle' | 
+     | 'ctitle'
     /** 随机生成常见的英文名 */
-    'first' | 
+     | 'first'
     /** 随机生成一个常见的英文姓 */
-    'last' | 
+     | 'last'
     /** 随机生成一个常见的英文姓名 */
-    'name' | 
+     | 'name'
     /** 随机生成一个常见的中文名 */
-    'cfirst' | 
+     | 'cfirst'
     /** 随机生成一个常见的中文姓 */
-    'clast' | 
+     | 'clast'
     /** 随机生成一个常见的中文姓名 */
-    'cname' | 
+     | 'cname'
     /** 随机生成一个大区 华北 华东等 */
-    'region' | 
+     | 'region'
     /** 随机生成一个省 */
-    'province' | 
+     | 'province'
     /** 随机生成一个市 */
-    'city' | 
+     | 'city'
     /** 随机生成一个县 */
-    'county' | 
+     | 'county'
     /** 随机生成一个详细地址 */
-    'address' | 
+     | 'address'
     /** 随机生成一个URL */
-    'url' | 
+     | 'url'
     /** 随机生成一个身份证号 */
-    'idCard' | 
+     | 'idCard'
     /** 随机生成一个guid */
-    'guid' | 
-    /** 从给定值中随机选择一个 */
-    'pick';
+     | 'guid';
 } | {
     type: 'date';
     /** yyyy-MM-dd HH:mm:ss */
@@ -73,11 +67,11 @@ declare type CustomAddtionalFields = ({
     format: string;
 }) | {
     type: 'array';
-} | {
+} | ({
     type: 'object';
 } & {
     mockArgs?: (string | number | boolean)[];
-};
+});
 export declare type CustomJSONSchema = JSONSchema4 & Partial<CustomAddtionalFields> & {
     additionalItems?: boolean | CustomJSONSchema;
     items?: CustomJSONSchema | CustomJSONSchema[];
@@ -99,7 +93,7 @@ export declare type CustomJSONSchema = JSONSchema4 & Partial<CustomAddtionalFiel
     oneOf?: CustomJSONSchema[];
 };
 /**
- * 根据json schema生成mock数据
+ * 根据 JSON Schema 生成 mock 数据
  */
 export default function mockFromSchema(schema: CustomJSONSchema): JSONSchema4Type;
 export {};
