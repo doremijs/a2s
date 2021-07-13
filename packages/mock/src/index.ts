@@ -65,8 +65,8 @@ type CustomAddtionalFields =
             | 'idCard'
             /** 随机生成一个guid */
             | 'guid'
-            /** 从给定值中随机选择一个 */
-            | 'pick'
+          /** 从给定值中随机选择一个 */
+          // | 'pick'
         }
       | {
           type: 'date'
@@ -120,6 +120,9 @@ export default function mockFromSchema(schema: CustomJSONSchema): JSONSchema4Typ
 function commonMockWithArgs(mockFunc: keyof MockjsRandom, schema: CustomJSONSchema) {
   if (schema.mockArgs !== undefined) {
     return Random[mockFunc](...schema.mockArgs)
+  }
+  if (schema.enum) {
+    return Random.pick(schema.enum)
   }
   if (schema.minimum !== undefined && schema.minimum !== null) {
     if (schema.maximum !== undefined && schema.maximum !== null) {

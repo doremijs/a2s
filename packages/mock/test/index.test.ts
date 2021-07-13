@@ -3,7 +3,7 @@ import mockFromSchema, { CustomJSONSchema } from '../src'
 
 const numberSchema: CustomJSONSchema = {
   type: 'number',
-  format: 'float',
+  format: 'integer',
   minimum: 0,
   maximum: 100
 }
@@ -42,8 +42,7 @@ const objSchema: CustomJSONSchema = {
     },
     gender: {
       type: 'string',
-      format: 'pick',
-      mockArgs: ['男', '女']
+      enum: ['男', '女']
     },
     age: {
       type: 'number',
@@ -64,8 +63,7 @@ const objSchema: CustomJSONSchema = {
           },
           gender: {
             type: 'string',
-            format: 'pick',
-            mockArgs: ['男', '女']
+            enum: ['男', '女']
           },
           age: {
             type: 'number',

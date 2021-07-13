@@ -76,9 +76,7 @@ mockFromSchema({
     gender: {
       type: 'string',
       // 数组中选择一项
-      format: 'pick',
-      // mockArgs是format函数的参数
-      mockArgs: ['男', '女']
+      enum: ['男', '女']
     },
     age: {
       type: 'number',
@@ -103,8 +101,7 @@ mockFromSchema({
           },
           gender: {
             type: 'string',
-            format: 'pick',
-            mockArgs: ['男', '女']
+            enum: ['男', '女']
           },
           age: {
             type: 'number',
