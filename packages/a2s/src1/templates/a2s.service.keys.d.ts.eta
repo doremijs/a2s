@@ -1,0 +1,47 @@
+/* eslint-disable */
+export interface ServiceRequestAndResponseMap {
+<% it.apis.forEach(function(api){ %>
+  '<%= api.group %>@<%= api.title %>': {
+    params: <% if(api.req_params && api.req_params.length > 0) { %> {
+      <% api.req_params.forEach(function(param) { %>
+        /**
+         * @description <%= param.desc %>
+
+         * @example <%= param.example %>
+
+         */
+        <%= param.name %>: any
+      <% }) %>
+    }<% } else { %>{}<% } %>
+
+    query: <% if(api.req_query && api.req_query.length > 0) { %> {
+      <% api.req_query.forEach(function(query) { %>
+        /**
+         * @description <%= query.desc %>
+
+         * @example <%= query.example %>
+
+         */
+        <%= query.name %><%= query.required === '1' ? '' : '?' %>: any
+      <% }) %>
+    }<% } else { %>{}<% } %>
+
+    body: <% if(api.req_body_form && api.req_body_form.length > 0) { %> {
+      <% api.req_body_form.forEach(function(body) { %>
+        /**
+         * @description <%= body.desc %>
+
+         * @example <%= body.example %>
+
+         */
+        <%= body.name %><%= body.required === '1' ? '' : '?' %>: <%
+          if(body.type === 'file') { %> {File<% } else { %>string | number | boolean<% } %>
+      <% }) %>
+    }<% } else { %>{}<% } %>
+
+    response: {}
+  }
+<% }) %>
+}
+
+export type ServiceKeys = keyof ServiceRequestAndResponseMap

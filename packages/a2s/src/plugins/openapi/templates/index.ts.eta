@@ -1,0 +1,36 @@
+/* eslint-disable */
+import { requestAdapter } from './a2s.adapter'
+import type { RequestBody, RequestQuery } from './a2s.types'
+
+function extract(args: RequestBody, queryList: string[]) {
+  const query: RequestQuery = {}
+  const body: RequestBody = {}
+  Object.keys(args).forEach(key => {
+    if (queryList.includes(key)) {
+      query[key] = args[key] as RequestQuery
+    } else {
+      body[key] = args[key]
+    }
+  })
+  return { query, body }
+}
+<% Object.keys(it.paths).forEach(k => { %>
+  <%=k%>
+
+<% }) %>
+<% /* <%=Object.keys(it).length%> */ %>
+<% /* export const services = {
+  <% Object.keys(it.paths).forEach(path => { %>
+    <% var pathGroup = it.paths[path] %>
+    <% Object.keys(pathGroup).forEach(method => { %>
+      <% var api = pathGroup[method] %>
+      '<%=api.tags ? api.tags[0] : 'default' %>@<%=api.summary || path%>'(args: { username: string; nickname: string }) {
+        return requestAdapter<{ age: number }>({
+          url: '',
+          ...extract(args, ['nickname']),
+          method: <%= method %>
+        })
+      }
+    <% }) %>
+  <% }) %>
+} */ %>
