@@ -65,7 +65,13 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
     // // index
     files.push({
       fileName: 'index.ts',
-      content: (await renderFile(resolve(__dirname, './templates/index.ts.eta'), data)) as string
+      content: formatFileContent(
+        (await renderFile(resolve(__dirname, './templates/index.ts.eta'), {
+          // tags: data.tags,
+          components: data.components,
+          paths: data.paths
+        })) as string
+      )
     })
     return files
   }

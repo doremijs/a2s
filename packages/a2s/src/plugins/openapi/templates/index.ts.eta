@@ -14,12 +14,7 @@ function extract(args: RequestBody, queryList: string[]) {
   })
   return { query, body }
 }
-<% Object.keys(it.paths).forEach(k => { %>
-  <%=k%>
-
-<% }) %>
-<% /* <%=Object.keys(it).length%> */ %>
-<% /* export const services = {
+export const services = {
   <% Object.keys(it.paths).forEach(path => { %>
     <% var pathGroup = it.paths[path] %>
     <% Object.keys(pathGroup).forEach(method => { %>
@@ -28,9 +23,9 @@ function extract(args: RequestBody, queryList: string[]) {
         return requestAdapter<{ age: number }>({
           url: '',
           ...extract(args, ['nickname']),
-          method: <%= method %>
+          method: '<%= method.toUpperCase() %>'
         })
-      }
+      },
     <% }) %>
   <% }) %>
-} */ %>
+}

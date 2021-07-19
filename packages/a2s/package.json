@@ -16,6 +16,7 @@
   "scripts": {
     "build": "tsc --outFile bin/a2s.js bin/a2s.ts && tsc && sed -i '' 's/src/dist/' bin/a2s.js",
     "prepublishOnly": "npm run build",
+    "init": "ts-node bin/a2s.ts init -y",
     "start": "ts-node bin/a2s.ts generate -y"
   },
   "dependencies": {
