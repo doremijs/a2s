@@ -1,0 +1,39 @@
+<% var body = it.requestBody && it.requestBody.content && it.requestBody.content['application/json'].schema || null %>
+<% if (!it.pathList.length && !it.queryList.length && !body) { %>
+args?: unknown
+<% } else { %>
+  args: <% /* path */ %>
+  <% if (it.pathList.length) { %>
+  {
+  <% it.pathList.forEach(path => { %>
+    /**
+    * @description <%= path.description || '' %>
+
+    * @example <%= path.example || '' %>
+
+    */
+    <%= path.name %>: <%~ include('schema.any', path.schema ) %>
+
+  <% }) %>
+  }<% if (it.queryList.length || body) { %> & <% } %>
+  <% } %>
+  <% /* query */ %>
+  <% if (it.queryList.length) { %>
+  {
+  <% it.queryList.forEach(query => { %>
+    /**
+    * @description <%= query.description || '' %>
+
+    * @example <%= query.example || '' %>
+
+    */
+    <%= query.name %>: <%~ include('schema.any', query.schema ) %>
+
+  <% }) %>
+  }<% if (body) { %> & <% } %>
+  <% } %>
+  <% /* body */ %>
+  <% if (body) { %>
+  <%~ include('schema.any', body) %>
+  <% } %>
+<% } %>

@@ -1,29 +1,37 @@
 /* eslint-disable */
 import { requestAdapter } from './a2s.adapter'
 import type { RequestBody, RequestQuery } from './a2s.types'
+import type { OpenAPISchema } from './a2s.namespace'
 
-function extract(args: RequestBody, queryList: string[]) {
-  const query: RequestQuery = {}
-  const body: RequestBody = {}
-  Object.keys(args).forEach(key => {
-    if (queryList.includes(key)) {
-      query[key] = args[key] as RequestQuery
-    } else {
-      body[key] = args[key]
-    }
-  })
-  return { query, body }
+function extract(args: RequestBody | unknown, queryList: string[]) {
+  if (args && typeof args === 'object') {
+    const query: RequestQuery = {}
+    const body: RequestBody = {}
+    Object.keys(args).forEach(key => {
+      if (queryList.includes(key)) {
+        query[key] = (args as RequestBody)[key] as RequestQuery
+      } else {
+        body[key] = (args as RequestBody)[key]
+      }
+    })
+    return { query, body }
+  }
+  return { query: {}, body: {} } 
 }
+
 export const services = {
   <% Object.keys(it.paths).forEach(path => { %>
     <% var pathGroup = it.paths[path] %>
     <% Object.keys(pathGroup).forEach(method => { %>
       <% var api = pathGroup[method] %>
-      '<%=api.tags ? api.tags[0] : 'default' %>@<%=api.summary || path%>'(args: { username: string; nickname: string }) {
-        return requestAdapter<{ age: number }>({
-          url: '',
-          ...extract(args, ['nickname']),
-          method: '<%= method.toUpperCase() %>'
+      <% var { queryList, pathList } = it.extractParameters(api.parameters) %>
+      '<%=api.tags ? api.tags[0] : 'default' %>@<%=api.summary || path%>'(<%~ include('openapi.args', { queryList: queryList, pathList: pathList, requestBody: api.requestBody }) %>) {
+        return requestAdapter<<%~ include('openapi.resp', { responses: api.responses }) %>>({
+          url: '<%=path%>',
+          method: '<%= method.toUpperCase() %>',
+          ...extract(args, [<% queryList.forEach(q => {%>
+          '<%=q.name%>',
+          <% }) %>])
         })
       },
     <% }) %>

@@ -1,0 +1,2 @@
+<% var splited = it.ref.split('/') %>
+OpenAPISchema.<%= splited[splited.length - 1] %>

@@ -1,0 +1,10 @@
+<% /* <% if('$ref' in it.items) { %>
+<%~ include('schema.ref', { ref: it.items['$ref'] }) %>
+<% } else if(['string', 'number', 'boolean'].includes(it.items.type)) {
+%><%~ include('schema.primitive', { type: it.items.type }) %>
+<% } else if (it.items.type === 'array') {
+%><%~ include('schema.array', { items: it.items.items }) %>
+<% } else if (it.items.type === 'object') {
+%><%~ include('schema.object', { obj: it.items }) %>
+<% } %>[] */ %>
+<%~ include('schema.any', it.items ) %>[]
