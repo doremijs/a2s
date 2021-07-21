@@ -13,6 +13,7 @@ export interface OpenAPIDataSourceOptions {
     username: string
     password: string
   }
+  headers: Record<string, unknown>
 }
 
 // re-define schema.array
@@ -74,13 +75,8 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
     const { status, data } = await axios.get(pluginConfig.apiUrl, {
       responseType: 'json',
       timeout: 60000,
-      headers: pluginConfig.basicAuth
-        ? {
-            Authorization: Buffer.from(
-              `${pluginConfig.basicAuth.username}:${pluginConfig.basicAuth.password}`
-            ).toString('base64')
-          }
-        : {}
+      auth: pluginConfig.basicAuth,
+      headers: pluginConfig.headers
     })
     if (status < 300 && status >= 200) {
       return data as OpenAPIV3.Document
