@@ -29,13 +29,24 @@ function replacePath(path: string, pathValueMap?: unknown) {
     })
 }
 
+<% var keyList = [] %>
 export const services = {
-  <% Object.keys(it.paths).forEach(path => { %>
+  <% Object.keys(it.paths || {}).forEach(path => { %>
     <% var pathGroup = it.paths[path] %>
-    <% Object.keys(pathGroup).forEach(method => { %>
+    <% Object.keys(pathGroup || {}).forEach(method => { %>
       <% var api = pathGroup[method] %>
       <% var { queryList, pathList } = it.extractParameters(api.parameters) %>
-      '<%=api.tags ? api.tags[0] : 'default' %>@<%=api.summary || path%>'(<%~ include('openapi.args', { queryList: queryList, pathList: pathList, requestBody: api.requestBody }) %>) {
+      <% /* 计算api的key */ %>
+      <% var group = api.tags ? api.tags[0] : 'default' %>
+      <% var key = group + '@' + (api.summary || path) %>
+      <% /* api的key有冲突 */ %>
+      <% if (keyList.includes(key)) { %>
+        <% it.addWarnMessages(`\x1B[33m检测到重复api key: [${key}]，后续接口替换为 group@method@path 格式。\x1B[0m`) %>
+        <% key = group + '@' + method.toLowerCase() + '@' + path %>
+      <% } else { %>
+        <% keyList.push(key) %>
+      <% } %>
+      '<%= key %>'(<%~ include('openapi.args', { queryList: queryList, pathList: pathList, requestBody: api.requestBody }) %>) {
         return requestAdapter<<%~ include('openapi.resp', { responses: api.responses }) %>>({
           url: replacePath('<%= path %>', args),
           method: '<%= method.toUpperCase() %>',

@@ -7,10 +7,10 @@ module.exports = {
     openapi: {
       // 数据源地址
       apiUrl: 'https://your.company.com/apis-json',
-      basicAuth: {
-        username: '',
-        password: ''
-      },
+      // basicAuth: {
+      //   username: '',
+      //   password: ''
+      // },
       // headers: {
       //   Cookie: 'xxx=xxx; xxx=xxx;'
       // },

@@ -129,7 +129,14 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
           // tags: data.tags,
           components: data.components,
           paths: data.paths,
-          extractParameters(parameters: (OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject)[]) {
+          addWarnMessages(str: string) {
+            setTimeout(() => {
+              console.warn(str)
+            }, 10)
+          },
+          extractParameters(
+            parameters: (OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject)[] = []
+          ) {
             const pathList: OpenAPIV3.ParameterObject[] = []
             const queryList: OpenAPIV3.ParameterObject[] = []
             parameters.forEach(parameter => {

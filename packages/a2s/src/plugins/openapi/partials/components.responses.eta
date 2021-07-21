@@ -1,8 +1,8 @@
 <% Object.keys(it.responses || {}).forEach(key => { %>
   <% var schema = it.responses[key] %>
   <% var resp = schema.content['200'] || schema.content['201'] %>
-  <% if (resp) { %>
-    <% Object.keys(resp.schema).forEach(key => { %>
+  <% if (resp && resp.schema) { %>
+    <% Object.keys(resp.schema || {}).forEach(key => { %>
       <% var schema = resp.schema[key]
       %>export interface <%= key %> <% if('$ref' in schema) { %>
         = <% =schema['$ref'] %>

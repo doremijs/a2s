@@ -1,4 +1,4 @@
-<% var body = it.requestBody && it.requestBody.content && it.requestBody.content['application/json'].schema || null %>
+<% var body = it.requestBody && it.requestBody.content && it.requestBody.content['application/json'] && it.requestBody.content['application/json'].schema || null %>
 <% if (!it.pathList.length && !it.queryList.length && !body) { %>
 args?: unknown
 <% } else { %>
