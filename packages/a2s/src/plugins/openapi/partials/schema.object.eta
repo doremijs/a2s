@@ -1,7 +1,8 @@
 {
 <% Object.keys(it.obj.properties).forEach(key => {
 %><% var item = it.obj.properties[key] %>
-  <%= key %><% if (!(it.obj.required || []).includes(key)) {
+  <%~ include('schema.comment', item) %>
+  <%= key %><% if (item.required || !(it.obj.required || []).includes(key)) {
   %>?<% } %>: <%~ include('schema.any', item) %>
   <% /* <%
   if('$ref' in item) { %>

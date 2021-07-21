@@ -3,20 +3,30 @@ import { requestAdapter } from './a2s.adapter'
 import type { RequestBody, RequestQuery } from './a2s.types'
 import type { OpenAPISchema } from './a2s.namespace'
 
-function extract(args: RequestBody | unknown, queryList: string[]) {
+function extract(args: RequestBody | unknown, queryList: string[], paramList: string[]) {
   if (args && typeof args === 'object') {
     const query: RequestQuery = {}
     const body: RequestBody = {}
     Object.keys(args).forEach(key => {
       if (queryList.includes(key)) {
         query[key] = (args as RequestBody)[key] as RequestQuery
-      } else {
+      } else if (!paramList.includes(key)) {
         body[key] = (args as RequestBody)[key]
       }
     })
     return { query, body }
   }
   return { query: {}, body: {} } 
+}
+
+function replacePath(path: string, pathValueMap?: unknown) {
+  return path
+    .replace(/\/\{(\w+)}\//g, (_, str) => {
+      return `${(pathValueMap as Record<string, string | number>)[str]}`
+    })
+    .replace(/\/:(\w+)\//g, (_, str) => {
+      return `${(pathValueMap as Record<string, string | number>)[str]}`
+    })
 }
 
 export const services = {
@@ -27,10 +37,13 @@ export const services = {
       <% var { queryList, pathList } = it.extractParameters(api.parameters) %>
       '<%=api.tags ? api.tags[0] : 'default' %>@<%=api.summary || path%>'(<%~ include('openapi.args', { queryList: queryList, pathList: pathList, requestBody: api.requestBody }) %>) {
         return requestAdapter<<%~ include('openapi.resp', { responses: api.responses }) %>>({
-          url: '<%=path%>',
+          url: replacePath('<%= path %>', args),
           method: '<%= method.toUpperCase() %>',
+          done: true,
           ...extract(args, [<% queryList.forEach(q => {%>
           '<%=q.name%>',
+          <% }) %>], [<% pathList.forEach(p => {%>
+          '<%=p.name%>',
           <% }) %>])
         })
       },

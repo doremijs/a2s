@@ -30,6 +30,11 @@ templates.define(
   'schema.ref',
   compile(readFileSync(resolve(__dirname, './partials/schema.ref.eta'), 'utf-8'))
 )
+// schema.comment
+templates.define(
+  'schema.comment',
+  compile(readFileSync(resolve(__dirname, './partials/schema.comment.eta'), 'utf-8'))
+)
 templates.define(
   'schema.any',
   compile(readFileSync(resolve(__dirname, './partials/schema.any.eta'), 'utf-8'))

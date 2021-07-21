@@ -2,16 +2,11 @@
 <% if (!it.pathList.length && !it.queryList.length && !body) { %>
 args?: unknown
 <% } else { %>
-  args: <% /* path */ %>
+  args: <% /* params */ %>
   <% if (it.pathList.length) { %>
   {
   <% it.pathList.forEach(path => { %>
-    /**
-    * @description <%= path.description || '' %>
-
-    * @example <%= path.example || '' %>
-
-    */
+    <%~ include('schema.comment', path) %>
     <%= path.name %>: <%~ include('schema.any', path.schema ) %>
 
   <% }) %>
@@ -21,13 +16,8 @@ args?: unknown
   <% if (it.queryList.length) { %>
   {
   <% it.queryList.forEach(query => { %>
-    /**
-    * @description <%= query.description || '' %>
-
-    * @example <%= query.example || '' %>
-
-    */
-    <%= query.name %>: <%~ include('schema.any', query.schema ) %>
+    <%~ include('schema.comment', query) %>
+    <%= query.name %><%= query.required ? '' : '?' %>: <%~ include('schema.any', query.schema ) %>
 
   <% }) %>
   }<% if (body) { %> & <% } %>
