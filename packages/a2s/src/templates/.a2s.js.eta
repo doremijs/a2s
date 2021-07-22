@@ -1,9 +1,9 @@
 /* eslint-disable */
-/** @type {import('@zidong/a2s/dist/types').DataSourceConfig} */
+/** @type {import('@zidong/a2s/dist/config').DataSourceConfig} */
 module.exports = {
   // 数据源类型
   dataSourceOptions: {
-    /** @type {import('@zidong/a2s/types').OpenApiDataSourceConfig} */
+    /** @type {import('@zidong/a2s/dist/plugins').OpenAPIDataSourceOptions} */
     openapi: {
       // 数据源地址
       apiUrl: 'https://your.company.com/apis-json',
@@ -17,6 +17,7 @@ module.exports = {
       saveJson: true
     }
   },
+  /** @type {import('@zidong/a2s/dist/plugins').YAPIDataSourceOptions} */
   // dataSourceOptions: {
   //   'yapi': {
   //     apiUrl: 'https://your.company.com/',

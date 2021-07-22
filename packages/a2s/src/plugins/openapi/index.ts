@@ -84,6 +84,7 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
     return null
   },
   async onRenderTemplate(config, data) {
+    const components = data.components ?? {}
     const files: {
       fileName: string
       content: string
@@ -98,17 +99,14 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
     files.push({
       fileName: 'a2s.types.ts',
       content: formatFileContent(
-        (await renderFile(resolve(__dirname, './templates/a2s.types.ts.eta'), null)) as string
+        (await renderFile(resolve(__dirname, './templates/a2s.types.ts.eta'), {})) as string
       )
     })
     // adapter
     files.push({
       fileName: 'a2s.adapter.ts',
       content: formatFileContent(
-        (await renderFile(
-          resolve(__dirname, './templates/a2s.adapter.axios.ts.eta'),
-          null
-        )) as string
+        (await renderFile(resolve(__dirname, './templates/a2s.adapter.axios.ts.eta'), {})) as string
       )
     })
     // namespace
@@ -117,7 +115,7 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
       content: formatFileContent(
         (await renderFile(
           resolve(__dirname, './templates/a2s.namespace.d.ts.eta'),
-          data.components
+          components
         )) as string
       )
     })
@@ -127,7 +125,7 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
       content: formatFileContent(
         (await renderFile(resolve(__dirname, './templates/index.ts.eta'), {
           // tags: data.tags,
-          components: data.components,
+          components: components,
           paths: data.paths,
           addWarnMessages(str: string) {
             setTimeout(() => {
@@ -143,7 +141,7 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
               let _parameter: OpenAPIV3.ParameterObject
               if ('$ref' in parameter) {
                 const splited = parameter['$ref'].split('/')
-                const ref = data.components.parameters[splited[splited.length - 1]]
+                const ref = components.parameters?.[splited[splited.length - 1]]
                 _parameter = ref as OpenAPIV3.ParameterObject
               } else {
                 _parameter = parameter

@@ -1,8 +1,8 @@
 export interface DataSourcePlugin<DataSourceDocument = unknown, PluginConfig = unknown> {
   name: string
   // lifetimes
-  onFetchOriginData?: (config: DataSourceConfig<PluginConfig>) => Promise<DataSourceDocument | null>
-  onRenderTemplate?: (
+  onFetchOriginData: (config: DataSourceConfig<PluginConfig>) => Promise<DataSourceDocument | null>
+  onRenderTemplate: (
     config: DataSourceConfig<PluginConfig>,
     data: DataSourceDocument
   ) => Promise<

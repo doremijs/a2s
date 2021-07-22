@@ -1,1 +1,1 @@
-export { default as openapiPlugin } from './openapi'
+export { default as openapiPlugin, OpenAPIDataSourceOptions } from './openapi'

@@ -10,7 +10,8 @@ export async function runGenerate(overwrite: boolean) {
   // 加载配置
   const config = loadConfig()
   // 加载插件
-  const pluginMap: Record<string, DataSourcePlugin> = {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pluginMap: Record<string, DataSourcePlugin<any, any>> = {}
   pluginMap[openapiPlugin.name] = openapiPlugin
   // pluginMap[yapiPlugin.name] = yapiPlugin
   if (config.plugins?.length) {
