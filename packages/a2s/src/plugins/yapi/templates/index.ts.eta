@@ -1,0 +1,34 @@
+/* eslint-disable */
+import { requestAdapter } from './a2s.adapter'
+import type { RequestBody, RequestQuery } from './a2s.types'
+
+function extract(args: RequestBody | unkonwn, queryList: string[], paramList: string[]) {
+  const query: RequestQuery = {}
+  const body: RequestBody = {}
+  Object.keys(args).forEach(key => {
+    if (queryList.includes(key)) {
+      query[key] = args[key] as RequestQuery
+    } else if (!paramList.includes(key)) {
+      body[key] = args[key]
+    }
+  })
+  return { query, body }
+}
+//TODO
+export const services = {
+  <% it.apis.forEach(group => {%> 
+    <% group.list.forEach(item => {%>
+      '<%= group.name%>@<%= item.title %>'(args:any) {
+        return requestAdapter({
+          "url": '<%= item.query_path.path%>',
+          "method": '<%= item.method%>',
+          ...extract(args,[<% item.req_query.forEach(q => {%>
+            '<%= q.name%>',
+          <% }) %>],[<% item.req_params.forEach(p => {%>
+            '<%= p.name%>',
+            <% }) %>])
+        })
+        },
+    <% }) %>
+  <% })%>
+}

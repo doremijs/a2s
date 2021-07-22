@@ -3,16 +3,16 @@ import { resolve } from 'path'
 import { DataSourcePlugin, loadConfig } from '../config'
 import { writeToFile } from '../generator'
 import '../generator/schema'
-import openapiPlugin from '../plugins/openapi'
-// import yapiPlugin from '../plugins/yapi'
+// import openapiPlugin from '../plugins/openapi'
+import yapiPlugin from '../plugins/yapi'
 
 export async function runGenerate(overwrite: boolean) {
   // 加载配置
   const config = loadConfig()
   // 加载插件
   const pluginMap: Record<string, DataSourcePlugin> = {}
-  pluginMap[openapiPlugin.name] = openapiPlugin
-  // pluginMap[yapiPlugin.name] = yapiPlugin
+  // pluginMap[openapiPlugin.name] = openapiPlugin
+  pluginMap[yapiPlugin.name] = yapiPlugin
   if (config.plugins?.length) {
     config.plugins.forEach(plugin => {
       pluginMap[plugin.name] = plugin
