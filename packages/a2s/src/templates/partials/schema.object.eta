@@ -1,15 +1,9 @@
 {
-<% Object.keys(it.obj.properties).forEach(key => {
+<% Object.keys(it.obj.properties || {}).forEach(key => {
 %><% var item = it.obj.properties[key] %>
-  <%= key %><% if (!(it.obj.required || []).includes(key)) {
-  %>?<% } %>: <%
-  if(['string', 'number', 'boolean'].includes(item.type)) {
-  %><%~ include('schema.primitive', { type: item.type })%>
-  <% } else if (item.type === 'array') {
-  %><%~ include('schema.array', { items: item.items }) %>
-  <% } else if (item.type === 'object') {
-  %><%~ include('schema.object', { obj: item }) %>
-  <% } %>
+  <%~ include('schema.comment', item) %>
+  <%= key %><% if (item.required || !(it.obj.required || []).includes(key)) {
+  %>?<% } %>: <%~ include('schema.any', item) %>
 
 <% }) %>
 }

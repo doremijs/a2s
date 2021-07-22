@@ -1,8 +1,11 @@
 /* eslint-disable */
 import { requestAdapter } from './a2s.adapter'
 import type { RequestBody, RequestQuery } from './a2s.types'
-import type { OpenAPISchema } from './a2s.namespace'
+import type { ApiDocuments } from './a2s.namespace'
 
+/**
+ * 将参数拆分为 query 和 body
+ */
 function extract(args: RequestBody | unknown, queryList: string[], paramList: string[]) {
   if (args && typeof args === 'object') {
     const query: RequestQuery = {}
@@ -19,6 +22,9 @@ function extract(args: RequestBody | unknown, queryList: string[], paramList: st
   return { query: {}, body: {} } 
 }
 
+/**
+ * 路径参数插值
+ */
 function replacePath(path: string, pathValueMap?: unknown) {
   return path
     .replace(/\/\{(\w+)}\//g, (_, str) => {
@@ -35,25 +41,25 @@ export const services = {
     <% var pathGroup = it.paths[path] %>
     <% Object.keys(pathGroup || {}).forEach(method => { %>
       <% var api = pathGroup[method] %>
-      <% var { queryList, pathList } = it.extractParameters(api.parameters) %>
+      <% var { queryList, paramList } = it.extractParameters(api.parameters) %>
       <% /* 计算api的key */ %>
       <% var group = api.tags ? api.tags[0] : 'default' %>
-      <% var key = group + '@' + (api.summary || path) %>
+      <% var key = it.trimKey(group + '@' + (api.summary || path)) %>
       <% /* api的key有冲突 */ %>
       <% if (keyList.includes(key)) { %>
         <% it.addWarnMessages(`\x1B[33m检测到重复api key: [${key}]，后续接口替换为 group@method@path 格式。\x1B[0m`) %>
-        <% key = group + '@' + method.toLowerCase() + '@' + path %>
+        <% key = it.trimKey(group + '@' + method.toLowerCase() + '@' + path) %>
       <% } else { %>
         <% keyList.push(key) %>
       <% } %>
-      '<%= key %>'(<%~ include('openapi.args', { queryList: queryList, pathList: pathList, requestBody: api.requestBody }) %>) {
+      '<%= key %>'(<%~ include('openapi.args', { queryList: queryList, paramList: paramList, requestBody: api.requestBody }) %>) {
         return requestAdapter<<%~ include('openapi.resp', { responses: api.responses }) %>>({
           url: replacePath('<%= path %>', args),
           method: '<%= method.toUpperCase() %>',
           done: true,
           ...extract(args, [<% queryList.forEach(q => {%>
           '<%=q.name%>',
-          <% }) %>], [<% pathList.forEach(p => {%>
+          <% }) %>], [<% paramList.forEach(p => {%>
           '<%=p.name%>',
           <% }) %>])
         })

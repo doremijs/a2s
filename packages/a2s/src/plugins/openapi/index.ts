@@ -4,42 +4,25 @@ import { readFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
 import { DataSourceConfig, DataSourcePlugin } from '../../config'
-import { formatFileContent } from '../../generator'
+import { addWarnMessages, formatFileContent, generateCommonFiles, trimKey } from '../../generator'
 
 export interface OpenAPIDataSourceOptions {
+  /**
+   * openapi的json数据地址
+   */
   apiUrl: string
-  saveJson?: boolean
+  /**
+   * 如果openapi的数据获取外层有basic auth验证时使用
+   */
   basicAuth?: {
     username: string
     password: string
   }
+  /**
+   * 自定义请求头内容
+   */
   headers: Record<string, unknown>
 }
-
-// re-define schema.array
-templates.define(
-  'schema.array',
-  compile(readFileSync(resolve(__dirname, './partials/schema.array.eta'), 'utf-8'))
-)
-// re-define schema.object
-templates.define(
-  'schema.object',
-  compile(readFileSync(resolve(__dirname, './partials/schema.object.eta'), 'utf-8'))
-)
-// schema.ref
-templates.define(
-  'schema.ref',
-  compile(readFileSync(resolve(__dirname, './partials/schema.ref.eta'), 'utf-8'))
-)
-// schema.comment
-templates.define(
-  'schema.comment',
-  compile(readFileSync(resolve(__dirname, './partials/schema.comment.eta'), 'utf-8'))
-)
-templates.define(
-  'schema.any',
-  compile(readFileSync(resolve(__dirname, './partials/schema.any.eta'), 'utf-8'))
-)
 
 templates.define(
   'openapi.schemas',
@@ -68,7 +51,7 @@ templates.define(
   compile(readFileSync(resolve(__dirname, './partials/api.response.eta'), 'utf-8'))
 )
 
-const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptions> = {
+export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptions> = {
   name: 'openapi',
   async onFetchOriginData(config: DataSourceConfig<OpenAPIDataSourceOptions>) {
     const pluginConfig = config.dataSourceOptions[this.name]
@@ -89,26 +72,7 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
       fileName: string
       content: string
     }[] = []
-    if (config.dataSourceOptions[this.name].saveJson) {
-      files.push({
-        fileName: 'a2s.apis.json',
-        content: JSON.stringify(data, null, 2)
-      })
-    }
-    // types
-    files.push({
-      fileName: 'a2s.types.ts',
-      content: formatFileContent(
-        (await renderFile(resolve(__dirname, './templates/a2s.types.ts.eta'), {})) as string
-      )
-    })
-    // adapter
-    files.push({
-      fileName: 'a2s.adapter.ts',
-      content: formatFileContent(
-        (await renderFile(resolve(__dirname, './templates/a2s.adapter.axios.ts.eta'), {})) as string
-      )
-    })
+    files.push(...(await generateCommonFiles(data)))
     // namespace
     files.push({
       fileName: 'a2s.namespace.d.ts',
@@ -125,17 +89,19 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
       content: formatFileContent(
         (await renderFile(resolve(__dirname, './templates/index.ts.eta'), {
           // tags: data.tags,
-          components: components,
+          components,
           paths: data.paths,
-          addWarnMessages(str: string) {
-            setTimeout(() => {
-              console.warn(str)
-            }, 10)
-          },
+          trimKey,
+          addWarnMessages,
+          /**
+           * 将parameters里的请求参数拆分成params和queryList
+           * @param parameters openapi.parametes
+           * @returns 路径参数集合与query参数集合
+           */
           extractParameters(
             parameters: (OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject)[] = []
           ) {
-            const pathList: OpenAPIV3.ParameterObject[] = []
+            const paramList: OpenAPIV3.ParameterObject[] = []
             const queryList: OpenAPIV3.ParameterObject[] = []
             parameters.forEach(parameter => {
               let _parameter: OpenAPIV3.ParameterObject
@@ -147,12 +113,12 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
                 _parameter = parameter
               }
               if (_parameter.in === 'path') {
-                pathList.push(_parameter)
+                paramList.push(_parameter)
               } else if (_parameter.in === 'query') {
                 queryList.push(_parameter)
               }
             })
-            return { queryList, pathList }
+            return { queryList, paramList }
           }
         })) as string
       )
@@ -160,5 +126,3 @@ const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptio
     return files
   }
 }
-
-export default openapiPlugin

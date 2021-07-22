@@ -1,11 +1,12 @@
-<% var body = it.requestBody && it.requestBody.content && it.requestBody.content['application/json'] && it.requestBody.content['application/json'].schema || null %>
-<% if (!it.pathList.length && !it.queryList.length && !body) { %>
+<% var content = it.requestBody && it.requestBody.content %>
+<% var body = content && ((content['application/json'] && content['application/json'].schema) || (content['multipart/form-data'] && content['multipart/form-data'].schema)) || null %>
+<% if (!it.paramList.length && !it.queryList.length && !body) { %>
 args?: unknown
 <% } else { %>
   args: <% /* params */ %>
-  <% if (it.pathList.length) { %>
+  <% if (it.paramList.length) { %>
   {
-  <% it.pathList.forEach(path => { %>
+  <% it.paramList.forEach(path => { %>
     <%~ include('schema.comment', path) %>
     <%= path.name %>: <%~ include('schema.any', path.schema ) %>
 

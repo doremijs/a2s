@@ -3,7 +3,7 @@ import { resolve } from 'path'
 import { DataSourcePlugin, loadConfig } from '../config'
 import { writeToFile } from '../generator'
 import '../generator/schema'
-import openapiPlugin from '../plugins/openapi'
+import { openapiPlugin } from '../plugins'
 // import yapiPlugin from '../plugins/yapi'
 
 export async function runGenerate(overwrite: boolean) {

@@ -9,9 +9,11 @@ export async function run(_args: string[]) {
   const [service, args] = parseArgs(_args)
   // 是否有覆写参数
   const overwrite = args.includes('-y')
+  // 初始化配置文件
   if (service === 'init') {
     initConfig(overwrite)
   } else if (service === 'generate') {
+    // 生成api请求代码
     runGenerate(overwrite)
   }
 }
