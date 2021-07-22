@@ -31,3 +31,13 @@ templates.define(
   'schema.any',
   compile(readFileSync(resolve(__dirname, '../templates/partials/schema.any.eta'), 'utf-8'))
 )
+
+templates.define(
+  'dataPath.extend',
+  compile(readFileSync(resolve(__dirname, '../templates/partials/dataPath.extend.eta'), 'utf-8'))
+)
+
+templates.define(
+  'dataPath.path',
+  compile(readFileSync(resolve(__dirname, '../templates/partials/dataPath.path.eta'), 'utf-8'))
+)

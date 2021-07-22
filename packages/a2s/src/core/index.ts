@@ -2,7 +2,7 @@ import ora from 'ora'
 import { resolve } from 'path'
 import { DataSourcePlugin, loadConfig } from '../config'
 import { writeToFile } from '../generator'
-import '../generator/schema'
+import '../generator/partials'
 import { openapiPlugin } from '../plugins'
 // import yapiPlugin from '../plugins/yapi'
 

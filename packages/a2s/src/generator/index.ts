@@ -1,5 +1,5 @@
 export * from './file'
 export * from './init'
-export * from './schema'
+export * from './partials'
 export * from './types'
 export * from './utils'

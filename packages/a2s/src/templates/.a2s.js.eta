@@ -32,9 +32,9 @@ module.exports = {
   requestAdapter: 'axios',
   // [Optional, default: true] 是否对api的分组名和名称进行trim，减少空格
   trim: true,
-  // [Optional, default: []] 生成时可忽略的文件集合
+  // [Optional, default: ['a2s.adapter.ts']] 生成时可忽略的文件集合，当 a2s.adapter.ts 文件根据业务发生变更后需要ignore
   // eg: ['a2s.adapter.ts']
-  ignoreFiles: [],
+  ignoreFiles: ['a2s.adapter.ts'],
   <% /* // [Optional, default: true] 是否使用FormData，小程序不需要 */ %>
   <% /* hasFormData: true, */ %>
   // [Optional, default: null] 解构response返回的数据层级，一般用于后端返回的数据有一层固定的包裹，比如 { data: {}, message: '', err_code: '' } 这种情况，此时设置为 'data' 将自动解构到 data 里面的具体数据，如果有多层包裹，请使用数组

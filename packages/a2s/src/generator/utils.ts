@@ -52,7 +52,13 @@ export async function generateCommonFiles(data: unknown): Promise<GenerateFiles>
     content: formatFileContent(
       (await renderFile(
         resolve(__dirname, `../templates/a2s.adapter.${config.requestAdapter}.ts.eta`),
-        {}
+        {
+          dataPath: config.dataPath
+            ? Array.isArray(config.dataPath)
+              ? config.dataPath
+              : [config.dataPath]
+            : null
+        }
       )) as string
     )
   })
