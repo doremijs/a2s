@@ -98,8 +98,10 @@ async function doRequest() {
 ## 截图
 直接套用`y2s`的截图，效果是一致的（OpenApi会有interface的类型）
 - 请求参数提示
+
 ![](https://raw.githubusercontent.com/erguotou520/yapi2service/HEAD/docs/args.png)
 - 请求结果提示
+
 ![](https://raw.githubusercontent.com/erguotou520/yapi2service/HEAD/docs/resp.png)
 
 ## 发布
