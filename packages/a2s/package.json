@@ -1,13 +1,13 @@
 {
   "name": "@zidong/a2s",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "根据接口数据源生成前端代码",
   "keywords": ["openapi", "swagger", "yapi", "typescript", "generator"],
   "license": "MIT",
   "main": "dist/index.js",
   "author": "erguotou525@gmail.com",
   "files": [
-    "bin",
+    "bin/a2s.js",
     "dist"
   ],
   "bin": {

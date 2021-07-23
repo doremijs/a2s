@@ -17,5 +17,5 @@ export const configFilePath = resolve(process.cwd(), configFileName)
  */
 export async function initConfig(overwrite: boolean) {
   const content = await renderFile(configTemplateFilePath, {})
-  writeToFile(configFilePath, content as string, overwrite, '配置文件已存在，是否覆盖？')
+  await writeToFile(configFilePath, content as string, overwrite, '配置文件已存在，是否覆盖？')
 }

@@ -1,8 +1,11 @@
 /* eslint-disable */
 /** @type {import('@zidong/a2s/dist/config').DataSourceConfig} */
 module.exports = {
+  // 自定义插件
+  plugins: [/** require('a2s-custom-plugin') */],
   // 数据源类型
   dataSourceOptions: {
+    // key支持openapi和yapi以及插件额外支持的name值，值为具体每个插件的参数
     /** @type {import('@zidong/a2s/dist/plugins').OpenAPIDataSourceOptions} */
     openapi: {
       // 数据源地址

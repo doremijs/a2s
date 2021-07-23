@@ -56,7 +56,6 @@ export const services = {
         return requestAdapter<<%~ include('openapi.resp', { responses: api.responses }) %>>({
           url: replacePath('<%= path %>', args),
           method: '<%= method.toUpperCase() %>',
-          done: true,
           ...extract(args, [<% queryList.forEach(q => {%>
           '<%=q.name%>',
           <% }) %>], [<% paramList.forEach(p => {%>
