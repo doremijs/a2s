@@ -35,6 +35,7 @@ export async function runGenerate(overwrite: boolean) {
     spinner.stop()
     process.exit(-1)
   }
+  spinner.stop()
   // 渲染模板
   let files
   try {
@@ -53,6 +54,5 @@ export async function runGenerate(overwrite: boolean) {
       console.error(`文件 ${file.fileName} 写入错误\n`, error)
     }
   }
-  spinner.stop()
   console.log('Done!')
 }

@@ -19,6 +19,9 @@ export function loadConfig() {
     const config = require(configFilePath)
     if (config && config.dataSourceOptions) {
       config.outputPath = config.outputPath ?? 'src/services'
+      config.ignoreFiles = config.ignoreFiles || []
+      config.ignoreFiles.push('a2s.apis.json')
+      dsConfig = config
       return config as DataSourceConfig
     }
     console.error(`${configFileName}文件配置有误`)
