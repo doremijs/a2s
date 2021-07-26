@@ -1,1 +1,2 @@
-export { default as openapiPlugin } from './openapi'
+export * from './openapi'
+export * from './yapi'

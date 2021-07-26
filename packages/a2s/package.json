@@ -2,7 +2,7 @@
   "name": "@zidong/a2s",
   "version": "0.0.1",
   "description": "根据接口数据源生成前端代码",
-  "keywords": [],
+  "keywords": ["openapi", "swagger", "yapi", "typescript", "generator"],
   "license": "MIT",
   "main": "dist/index.js",
   "author": "erguotou525@gmail.com",
@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc --outFile bin/a2s.js bin/a2s.ts && tsc && sed -i '' 's/src/dist/' bin/a2s.js",
     "prepublishOnly": "npm run build",
-    "init": "ts-node bin/a2s.ts init -y",
+    "config": "ts-node bin/a2s.ts init -y",
     "start": "ts-node bin/a2s.ts generate -y"
   },
   "dependencies": {
@@ -34,5 +34,8 @@
     "openapi-types": "^9.1.0",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

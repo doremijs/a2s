@@ -1,2 +1,4 @@
 src/services
 .a2s.js
+dist
+bin/a2s.js

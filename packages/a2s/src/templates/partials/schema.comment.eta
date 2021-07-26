@@ -2,19 +2,23 @@
 /**
  <% if(it.title) { %>
  * <%= it.title %>
+
  <% } %>
  <% if(it.description) { %>
  * @description <%= it.description %>
+
  <% } %>
  <% if(it.example) { %>
  * @example <%= it.example %>
+
  <% } %>
  <% if(it.enum) { %>
  * @enum <%= it.enum %>
+
  <% } %>
  <% if(it.default !== undefined) { %>
  * @default <%= it.default %>
- <% }%>
 
+ <% }%>
  */
 <% } %>

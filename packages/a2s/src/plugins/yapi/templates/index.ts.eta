@@ -2,7 +2,7 @@
 import { requestAdapter } from './a2s.adapter'
 import type { RequestBody, RequestQuery } from './a2s.types'
 
-function extract(args: RequestBody | unkonwn, queryList: string[], paramList: string[]) {
+function extract(args: RequestBody, queryList: string[], paramList: string[]) {
   const query: RequestQuery = {}
   const body: RequestBody = {}
   Object.keys(args).forEach(key => {
@@ -14,13 +14,28 @@ function extract(args: RequestBody | unkonwn, queryList: string[], paramList: st
   })
   return { query, body }
 }
+
+/**
+ * 路径参数插值
+ */
+function replacePath(path: string, pathValueMap?: unknown) {
+  return path
+    .replace(/\/\{(\w+)}\//g, (_, str) => {
+      return `${(pathValueMap as Record<string, string | number>)[str]}`
+    })
+    .replace(/\/:(\w+)\//g, (_, str) => {
+      return `${(pathValueMap as Record<string, string | number>)[str]}`
+    })
+}
+
 //TODO
 export const services = {
   <% it.apis.forEach(group => {%> 
     <% group.list.forEach(item => {%>
-      '<%= group.name%>@<%= item.title %>'(args:any) {
+      '<%= group.name%>@<%= item.title %>'
+      (<%~ include('yapi.args',item)%>){
         return requestAdapter({
-          "url": '<%= item.query_path.path%>',
+          "url": replacePath('<%= item.query_path.path%>',args),
           "method": '<%= item.method%>',
           ...extract(args,[<% item.req_query.forEach(q => {%>
             '<%= q.name%>',

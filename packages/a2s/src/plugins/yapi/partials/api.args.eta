@@ -1,0 +1,42 @@
+<% if (!it.req_params.length && !it.req_query.length && !it.req_body_form.length && !it.req_body_other) { %>
+args?: unknown
+<% } else { %>
+  args: <% /* params */ %>
+  <% if (it.req_params.length) { %>
+  {
+  <% it.req_params.forEach(path => { %>
+    <%~ include('yapi.comment', path) %>
+    <%= path.name %>: any
+  <% }) %>
+  }<% if (it.req_query.length || it.req_body_form.length) { %> & <% } %>
+  <% } %>
+  <% /* query */ %>
+  <% if (it.req_query.length) { %>
+  {
+  <% it.req_query.forEach(query => { %>
+    <%~ include('yapi.comment', query) %>
+    <%= query.name %><%= query.required ? '' : '?' %>:any
+  <% }) %>
+  }<% if (it.req_body_form.length) { %> & <% } %>
+  <% } %>
+  <% /* body */ %>
+  <% if (it.req_body_form.length) { %>
+    {
+    <% if(it.req_body_type === "form") {%>
+      <% it.req_body_form.forEach(item => {%>
+        <% if(item.type === "text") {%>
+          <%~ include('yapi.comment',item)%>
+          <%= item.name %><%= item.required ? '' : '?' %> : number | boolean | string
+        <%} else if(item.type === "file") {%>
+          <%~ include('yapi.comment',item)%>
+          <%= item.name %><%= item.required ? '' : '?' %> : File
+        <%}%>
+      <% })%>
+    <%}%>
+    }
+  <% } %>
+  <% if (it.req_body_other && it.req_body_other.length) { %>
+      <% var body = JSON.parse(it.req_body_other)%>
+      <%~ include('schema.any', body) %>
+  <% } %>
+<% } %>

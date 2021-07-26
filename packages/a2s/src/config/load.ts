@@ -1,6 +1,6 @@
 import { existsSync } from 'fs-extra'
 import { DataSourceConfig } from '.'
-import { configFilePath } from '../generator/init'
+import { configFileName, configFilePath } from '../generator'
 
 /**
  * 加载配置文件
@@ -12,7 +12,7 @@ export function loadConfig() {
   }
   try {
     if (!existsSync(configFilePath)) {
-      console.error('.a2s.js文件不存在，请先创建，或者使用a2s init命令生成')
+      console.error(`${configFileName}文件不存在，请先创建，或者使用a2s init命令生成`)
       process.exit(-1)
     }
     // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -21,10 +21,10 @@ export function loadConfig() {
       config.outputPath = config.outputPath ?? 'src/services'
       return config as DataSourceConfig
     }
-    console.error('.a2s.js文件配置有误')
+    console.error(`${configFileName}文件配置有误`)
     process.exit(-1)
   } catch (error) {
-    console.error('.a2s.js文件读取错误，请检查配置')
+    console.error(`${configFileName}文件读取错误，请检查配置`)
     console.error(error)
     process.exit(-1)
   }

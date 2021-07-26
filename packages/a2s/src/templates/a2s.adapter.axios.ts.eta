@@ -12,7 +12,7 @@ export function setToken(_newToken: string) {
   _token = _newToken
 }
 
-export async function requestAdapter<T>(args: RequestFunctionArgs): Promise<ResponseObject<T>> {
+export async function requestAdapter<T<%~ include('dataPath.extend', it) %>>(args: RequestFunctionArgs): Promise<ResponseObject<T<%~ include('dataPath.path', it) %>>> {
   const { url, method, query, body, done = true } = args
   const token = getToken()
   const { status, data, statusText } = await axios.request({
@@ -31,7 +31,7 @@ export async function requestAdapter<T>(args: RequestFunctionArgs): Promise<Resp
   if (status < 300 && status >= 200) {
     return {
       error: false,
-      data: data as T
+      data: (data as T)<%~ include('dataPath.path', it) %>
     }
   }
   return {

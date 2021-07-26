@@ -1,2 +1,5 @@
 export * from './file'
 export * from './init'
+export * from './partials'
+export * from './types'
+export * from './utils'

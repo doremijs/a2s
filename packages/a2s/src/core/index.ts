@@ -2,16 +2,16 @@ import ora from 'ora'
 import { resolve } from 'path'
 import { DataSourcePlugin, loadConfig } from '../config'
 import { writeToFile } from '../generator'
-import '../generator/schema'
-// import openapiPlugin from '../plugins/openapi'
-import yapiPlugin from '../plugins/yapi'
+import '../generator/partials'
+import { openapiPlugin, yapiPlugin } from '../plugins'
 
 export async function runGenerate(overwrite: boolean) {
   // 加载配置
   const config = loadConfig()
   // 加载插件
-  const pluginMap: Record<string, DataSourcePlugin> = {}
-  // pluginMap[openapiPlugin.name] = openapiPlugin
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pluginMap: Record<string, DataSourcePlugin<any, any>> = {}
+  pluginMap[openapiPlugin.name] = openapiPlugin
   pluginMap[yapiPlugin.name] = yapiPlugin
   if (config.plugins?.length) {
     config.plugins.forEach(plugin => {

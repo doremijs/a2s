@@ -5,8 +5,6 @@ import { parse } from 'path'
 import { format } from 'prettier'
 import { loadConfig } from '../config'
 
-// const pwd = process.cwd()
-
 /**
  * 写文件
  * @param filePath 要写文件的路径
