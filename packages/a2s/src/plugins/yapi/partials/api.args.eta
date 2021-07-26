@@ -34,9 +34,8 @@ args?: unknown
       <% })%>
     <%}%>
     }
-  <% } %>
-  <% if (it.req_body_other && it.req_body_other.length) { %>
-      <% var body = JSON.parse(it.req_body_other)%>
-      <%~ include('schema.any', body) %>
+  <% } else if (it.req_body_other && it.req_body_other.length) { %>
+    <% var body = JSON.parse(it.req_body_other)%>
+    <%~ include('schema.any', body) %>
   <% } %>
 <% } %>

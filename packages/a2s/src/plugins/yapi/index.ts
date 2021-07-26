@@ -4,12 +4,11 @@ import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { DataSourceConfig, DataSourcePlugin } from '../../config'
 import { formatFileContent, generateCommonFiles, GenerateFiles } from '../../generator'
-import { YAPIDocument, YAPIReqParam, YAPIReqQuery } from './yapi.types'
+import { YAPIDocument } from './yapi.types'
 export interface YAPIDataSourceOptions {
   apiUrl: string
   projectId: number
   token: string
-  saveJson?: boolean
 }
 
 templates.define(
@@ -26,10 +25,9 @@ export const yapiPlugin: DataSourcePlugin<YAPIDocument, YAPIDataSourceOptions> =
   name: 'yapi',
   async onFetchOriginData(config: DataSourceConfig<YAPIDataSourceOptions>) {
     const pluginConfig = config.dataSourceOptions[this.name]
-    const { status, data } = await axios.get('api/plugin/export', {
+    const { status, data } = await axios.get('/api/plugin/export', {
       baseURL: pluginConfig.apiUrl,
       timeout: 60000,
-      headers: {},
       params: {
         token: pluginConfig.token,
         pid: pluginConfig.projectId,
