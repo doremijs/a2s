@@ -1,0 +1,12 @@
+<% if (it.example || it.desc) { %>
+/**
+ <% if(it.desc) { %>
+ * @description <%= it.desc %>
+
+ <% } %>
+ <% if(it.example) { %>
+ * @example <%= it.example %>
+
+ <% } %>
+ */
+<% } %>
