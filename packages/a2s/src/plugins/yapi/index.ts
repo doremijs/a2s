@@ -3,7 +3,7 @@ import { compile, renderFile, templates } from 'eta'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { DataSourceConfig, DataSourcePlugin } from '../../config'
-import { formatFileContent, generateCommonFiles, GenerateFiles } from '../../generator'
+import { formatFileContent, generateCommonFiles, addWarnMessages, trimKey } from '../../generator'
 import { YAPIDocument } from './yapi.types'
 export interface YAPIDataSourceOptions {
   apiUrl: string
@@ -42,14 +42,19 @@ export const yapiPlugin: DataSourcePlugin<YAPIDocument, YAPIDataSourceOptions> =
     return null
   },
   async onRenderTemplate(config, data) {
-    const files: GenerateFiles = []
+    const files: {
+      fileName: string
+      content: string
+    }[] = []
     files.push(...(await generateCommonFiles(data)))
     // index
     files.push({
       fileName: 'index.ts',
       content: formatFileContent(
         (await renderFile(resolve(__dirname, './templates/index.ts.eta'), {
-          apis: data
+          apis: data,
+          trimKey,
+          addWarnMessages
         })) as string
       )
     })

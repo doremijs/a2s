@@ -34,11 +34,20 @@ function replacePath(path: string, pathValueMap?: unknown) {
     })
 }
 
+<% var keyList = []%>
 export const services = {
   <% it.apis.forEach(group => {%> 
     <% group.list.forEach(item => {%>
-      '<%= group.name%>@<%= item.title %>'
-      (<%~ include('yapi.args',item)%>){
+    <% /* 计算api的值 */ %>
+    <% var key = it.trimKey(group.name + '@' + item.title)%>
+    <% /* api的key有冲突 */ %>
+    <% if(keyList.includes(key)) {%>
+      <% it.addWarnMessages(`\x1B[33m检测到重复api key: [${key}]，后续接口替换为 group.name@item.method@item.path 格式。\x1B[0m`)%>
+      <% key = it.trimKey(group.name + '@' + item.method.toLowerCase() + '@' + item.path)%>
+    <% } else { %>
+      <% keyList.push(key)%>
+    <% } %>
+      '<%= key %>'(<%~ include('yapi.args',item)%>){
         return requestAdapter({
           "url": replacePath('<%= item.query_path.path%>',args),
           "method": '<%= item.method%>',
