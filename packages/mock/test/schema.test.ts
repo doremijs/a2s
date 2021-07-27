@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals'
-import mockFromSchema, { CustomJSONSchema } from '../src'
+import { CustomJSONSchema, mockFromSchema } from '../src'
 
 const numberSchema: CustomJSONSchema = {
   type: 'number',

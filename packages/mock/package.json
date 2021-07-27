@@ -16,6 +16,7 @@
     "mockjs": "^1.1.0"
   },
   "devDependencies": {
+    "@types/echarts": "^4.9.9",
     "@types/jest": "^26.0.23",
     "@types/json-schema": "^7.0.7",
     "@types/mockjs": "^1.0.3",
