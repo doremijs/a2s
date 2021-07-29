@@ -30,7 +30,7 @@ interface LoginLog {
   ip: IP
 }
 
-export function mockIp(): IP {
+export function mockIP(): IP {
   //
 }
 
