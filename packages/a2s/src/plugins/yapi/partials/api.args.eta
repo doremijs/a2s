@@ -6,7 +6,7 @@ args?: unknown
   {
   <% it.req_params.forEach(path => { %>
     <%~ include('yapi.comment', path) %>
-    <%= path.name %>: any
+    <%= path.name %> : any
   <% }) %>
   }<% if (it.req_query.length || it.req_body_form.length) { %> & <% } %>
   <% } %>
@@ -15,7 +15,7 @@ args?: unknown
   {
   <% it.req_query.forEach(query => { %>
     <%~ include('yapi.comment', query) %>
-    <%= query.name %><%= query.required ? '' : '?' %>:any
+    <%= query.name %><%= Number(query.required) ? '' : '?' %> : any
   <% }) %>
   }<% if (it.req_body_form.length) { %> & <% } %>
   <% } %>
@@ -26,10 +26,10 @@ args?: unknown
       <% it.req_body_form.forEach(item => {%>
         <% if(item.type === "text") {%>
           <%~ include('yapi.comment',item)%>
-          <%= item.name %><%= item.required ? '' : '?' %> : number | boolean | string
+          <%= item.name %><%= Number(item.required) ? '' : '?' %> : number | boolean | string
         <%} else if(item.type === "file") {%>
           <%~ include('yapi.comment',item)%>
-          <%= item.name %><%= item.required ? '' : '?' %> : File
+          <%= item.name %><%= Number(item.required) ? '' : '?' %> : File
         <%}%>
       <% })%>
     <%}%>
