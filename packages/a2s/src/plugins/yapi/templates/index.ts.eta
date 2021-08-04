@@ -48,7 +48,7 @@ export const services = {
       <% keyList.push(key)%>
     <% } %>
       '<%= key %>'(<%~ include('yapi.args',item)%>){
-        return requestAdapter({
+        return requestAdapter<<%~ include('schema.any', item.res_body) %>>({
           "url": replacePath('<%= item.query_path.path%>',args),
           "method": '<%= item.method%>',
           ...extract(args,[<% item.req_query.forEach(q => {%>

@@ -3,7 +3,7 @@
 %><% var item = it.obj.properties[key] %>
   <%~ include('schema.comment', item) %>
   <%= key %><% if (item.required || !(it.obj.required || []).includes(key)) {
-  %>?<% } %>: <%~ include('schema.any', item) %>
+  %>?<% } %>: <%~ include('schema.any', item) %>,
 
 <% }) %>
 }

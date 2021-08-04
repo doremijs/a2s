@@ -52,7 +52,19 @@ export const yapiPlugin: DataSourcePlugin<YAPIDocument, YAPIDataSourceOptions> =
       fileName: 'index.ts',
       content: formatFileContent(
         (await renderFile(resolve(__dirname, './templates/index.ts.eta'), {
-          apis: data,
+          apis: data.map(group => ({
+            ...group,
+            list: group.list.map(api => {
+              try {
+                return {
+                  ...api,
+                  res_body: api.res_body ? JSON.parse(api.res_body as string) : {}
+                }
+              } catch (error) {
+                console.error(api.res_body)
+              }
+            })
+          })),
           trimKey,
           addWarnMessages
         })) as string
