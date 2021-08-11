@@ -112,4 +112,4 @@ npm publish --access public
 ```
 
 ## 淘宝源主动更新
-https://npm.taobao.org/sync/y2s
+https://npm.taobao.org/sync/@zidong/a2s
