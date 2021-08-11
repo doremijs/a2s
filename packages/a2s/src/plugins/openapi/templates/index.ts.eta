@@ -27,11 +27,11 @@ function extract(args: RequestBody | unknown, queryList: string[], paramList: st
  */
 function replacePath(path: string, pathValueMap?: unknown) {
   return path
-    .replace(/\/\{(\w+)}\//g, (_, str) => {
-      return `${(pathValueMap as Record<string, string | number>)[str]}`
+    .replace(/\/\{(\w+)}/g, (_, str) => {
+      return `/${(pathValueMap as Record<string, string | number>)[str]}`
     })
-    .replace(/\/:(\w+)\//g, (_, str) => {
-      return `${(pathValueMap as Record<string, string | number>)[str]}`
+    .replace(/\/:(\w+)/g, (_, str) => {
+      return `/${(pathValueMap as Record<string, string | number>)[str]}`
     })
 }
 

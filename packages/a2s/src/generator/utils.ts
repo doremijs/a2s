@@ -37,7 +37,8 @@ export async function generateCommonFiles(data: unknown): Promise<GenerateFiles>
   const config = loadConfig()
   files.push({
     fileName: resolve(process.cwd(), 'node_modules/.a2s/a2s.apis.json'),
-    content: JSON.stringify(data, null, 2)
+    content: JSON.stringify(data, null, 2),
+    forceOverwrite: true
   })
   // types
   files.push({

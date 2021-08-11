@@ -1,6 +1,6 @@
 {
   "name": "@zidong/a2s",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "根据接口数据源生成前端代码",
   "keywords": ["openapi", "swagger", "yapi", "typescript", "generator"],
   "license": "MIT",

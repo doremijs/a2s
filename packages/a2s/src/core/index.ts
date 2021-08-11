@@ -49,7 +49,11 @@ export async function runGenerate(overwrite: boolean) {
   const outputFolder = resolve(process.cwd(), config.outputPath)
   for (const file of files) {
     try {
-      await writeToFile(resolve(outputFolder, file.fileName), file.content, overwrite)
+      await writeToFile(
+        resolve(outputFolder, file.fileName),
+        file.content,
+        file.forceOverwrite ?? overwrite
+      )
     } catch (error) {
       console.error(`文件 ${file.fileName} 写入错误\n`, error)
     }
