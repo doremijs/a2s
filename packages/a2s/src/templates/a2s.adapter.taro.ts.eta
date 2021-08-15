@@ -2,7 +2,7 @@
 import Taro, { getCurrentPages, uploadFile } from '@tarojs/taro'
 import { RequestFunctionArgs, ResponseObject } from './a2s.types'
 
-export interface CommonResponse<T = unknown> {
+export interface CommonResponse<T = any> {
   data: T
   err_code: string
   err_message: string

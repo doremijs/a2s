@@ -3,6 +3,9 @@
 目标是对[y2s](https://www.npmjs.com/package/y2s)做一次升级以支持更多的api文档，用法和`y2s`基本一致。
 
 ## 版本历史
+- 0.0.7
+  - 添加`ServiceKeys`,`ServiceArg`和`ServiceReturn`辅助类型
+  - 生成的`unknown`类型换成`any`类型
 - 0.0.6
   - 修复yapi生成的body参数为空的问题
   - 修复`a2s.apis.json`文件无法更新的问题
