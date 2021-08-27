@@ -2,7 +2,7 @@
 import Taro, { getCurrentPages, uploadFile } from '@tarojs/taro'
 import { RequestFunctionArgs, ResponseObject } from './a2s.types'
 
-export interface CommonResponse<T = unknown> {
+export interface CommonResponse<T = any> {
   data: T
   err_code: string
   err_message: string
@@ -19,13 +19,13 @@ export function setToken(_newToken: string) {
   _token = _newToken
 }
 
-export async function requestAdapter<T>(args: RequestFunctionArgs): Promise<ResponseObject<T>> {
+export async function requestAdapter<T<%~ include('dataPath.extend', it) %>>(args: RequestFunctionArgs): Promise<ResponseObject<T<%~ include('dataPath.path', it) %>>> {
   const { url, method, query, body, done = true } = args
   const token = getToken()
   try {
     const res = await Taro.request({
       url: (done ? 'https://your.api.com/v1' : 'https://mock.your.api.com/v1') + url,
-      method: method,
+      method: method.toUpperCase() as keyof Taro.request.method,
       timeout: 120000,
       dataType: 'json',
       data: method === 'GET' ? query : body,
@@ -34,10 +34,10 @@ export async function requestAdapter<T>(args: RequestFunctionArgs): Promise<Resp
         ...(token ? { Authorization: `Bearer ${token}` } : {} )
       }
     })
-    return statusHandler(res)
+    return statusHandler<T>(res)
   } catch (error) {
     console.error(error)
-    Taro.showToast({ content: '检测到网络信号弱，请重试' })
+    Taro.showToast({ title: '检测到网络信号弱，请重试' })
     return {
       data: null,
       error: true,
@@ -49,16 +49,16 @@ export async function requestAdapter<T>(args: RequestFunctionArgs): Promise<Resp
 let isRedirectToLoginFlag = false
 
 // 不同的service状态的处理函数
-function statusHandler(res: Taro.request.SuccessCallbackResult<CommonResponse>) {
+function statusHandler<T>(res: Taro.request.SuccessCallbackResult<CommonResponse>) {
   const { data, statusCode, errMsg } = res
   if (statusCode >= 200 && statusCode < 300) {
     return {
-      data,
+      data: data as unknown as CommonResponse<T>,
       error: false,
       message: errMsg
     }
   } else if (statusCode === 401) {
-    Taro.removeStorage('token')
+    Taro.removeStorage({ key: 'token' })
     setToken('')
     const page = getCurrentPages()[0]
     if (
@@ -73,7 +73,7 @@ function statusHandler(res: Taro.request.SuccessCallbackResult<CommonResponse>) 
     }
     return { data: null, error: false, message: '' }
   } else {
-    Taro.showToast({ content: data?.message || errMsg })
+    Taro.showToast({ title: data?.message || errMsg })
     return {
       data: null,
       error: true,

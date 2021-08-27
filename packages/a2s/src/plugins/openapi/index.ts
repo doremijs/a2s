@@ -72,7 +72,7 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
       fileName: string
       content: string
     }[] = []
-    files.push(...(await generateCommonFiles(data)))
+    files.push(...(await generateCommonFiles()))
     // namespace
     files.push({
       fileName: 'a2s.namespace.d.ts',

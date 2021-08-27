@@ -8,8 +8,8 @@
       <%~ include('schema.any', content.schema ) %>
     <% } %>
   <% } else { %>
-unknown
+any
   <% } %>
 <% } else { %>
-unknown
+any
 <% } %>

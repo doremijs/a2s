@@ -3,6 +3,18 @@
 目标是对[y2s](https://www.npmjs.com/package/y2s)做一次升级以支持更多的api文档，用法和`y2s`基本一致。
 
 ## 版本历史
+- 0.0.8
+  - 修复`a2s.apis.json`文件生成时机不对的问题
+  - 修复`type=array`时没有提供`items`导致生成报错的问题
+- 0.0.7
+  - 添加`ServiceKeys`,`ServiceArg`和`ServiceReturn`辅助类型
+  - 生成的`unknown`类型换成`any`类型
+- 0.0.6
+  - 修复yapi生成的body参数为空的问题
+  - 修复`a2s.apis.json`文件无法更新的问题
+  - 修复生成的模板文件中url替换错误的问题
+- 0.0.5
+  - 修复yapi生成的args类型错误问题
 - 0.0.4
   - 支持yapi的代码生成
 - 0.0.3
@@ -112,4 +124,4 @@ npm publish --access public
 ```
 
 ## 淘宝源主动更新
-https://npm.taobao.org/sync/y2s
+https://npm.taobao.org/sync/@zidong/a2s

@@ -17,4 +17,4 @@
   %><%~ include('schema.array', it) %>
 <% } else if (it.type === 'object' || it.properties) {
   %><%~ include('schema.object', { obj: it }) %>
-<% } else { %>unknown<% } %>
+<% } else { %>any<% } %>

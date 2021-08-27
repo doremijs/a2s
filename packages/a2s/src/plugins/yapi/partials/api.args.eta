@@ -1,5 +1,6 @@
-<% if (!it.req_params.length && !it.req_query.length && !it.req_body_form.length && !it.req_body_other) { %>
-args?: unknown
+<% var hasBody = !!it.req_body_form.length || (!!it.req_body_other && !!it.req_body_other.length) %>
+<% if (!it.req_params.length && !it.req_query.length && !hasBody) { %>
+args?: any
 <% } else { %>
   args: <% /* params */ %>
   <% if (it.req_params.length) { %>
@@ -8,7 +9,7 @@ args?: unknown
     <%~ include('yapi.comment', path) %>
     <%= path.name %> : any
   <% }) %>
-  }<% if (it.req_query.length || it.req_body_form.length) { %> & <% } %>
+  }<% if (it.req_query.length || hasBody) { %> & <% } %>
   <% } %>
   <% /* query */ %>
   <% if (it.req_query.length) { %>
@@ -17,25 +18,25 @@ args?: unknown
     <%~ include('yapi.comment', query) %>
     <%= query.name %><%= Number(query.required) ? '' : '?' %> : any
   <% }) %>
-  }<% if (it.req_body_form.length) { %> & <% } %>
+  }<% if (hasBody) { %> & <% } %>
   <% } %>
   <% /* body */ %>
-  <% if (it.req_body_form.length) { %>
+  <% if (hasBody) { %>
+    <% if(it.req_body_type === "form") { %>
     {
-    <% if(it.req_body_type === "form") {%>
-      <% it.req_body_form.forEach(item => {%>
-        <% if(item.type === "text") {%>
-          <%~ include('yapi.comment',item)%>
+      <% it.req_body_form.forEach(item => { %>
+        <% if(item.type === "text") { %>
+          <%~ include('yapi.comment',item) %>
           <%= item.name %><%= Number(item.required) ? '' : '?' %> : number | boolean | string
-        <%} else if(item.type === "file") {%>
-          <%~ include('yapi.comment',item)%>
+        <% } else if(item.type === "file") { %>
+          <%~ include('yapi.comment',item) %>
           <%= item.name %><%= Number(item.required) ? '' : '?' %> : File
-        <%}%>
-      <% })%>
-    <%}%>
+        <% } %>
+      <% }) %>
     }
-  <% } else if (it.req_body_other && it.req_body_other.length) { %>
-    <% var body = JSON.parse(it.req_body_other)%>
-    <%~ include('schema.any', body) %>
+    <% } else if (it.req_body_other && it.req_body_other.length) { %>
+      <% var body = JSON.parse(it.req_body_other) %>
+      <%~ include('schema.any', body) %>
+    <% } %>
   <% } %>
 <% } %>
