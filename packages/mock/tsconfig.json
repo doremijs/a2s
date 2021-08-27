@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "rootDir": "./"
+    "rootDir": "./",
+    "resolveJsonModule": true
   },
   "extends": "../../tsconfig.package.json",
-  "include": ["src/**/*", "test/**/*"]
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ]
 }
