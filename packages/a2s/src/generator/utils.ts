@@ -32,14 +32,9 @@ export function addWarnMessages(str: string) {
  * @param data 原始api数据
  * @returns 待生成的文件集合
  */
-export async function generateCommonFiles(data: unknown): Promise<GenerateFiles> {
+export async function generateCommonFiles(): Promise<GenerateFiles> {
   const files: GenerateFiles = []
   const config = loadConfig()
-  files.push({
-    fileName: resolve(process.cwd(), 'node_modules/.a2s/a2s.apis.json'),
-    content: JSON.stringify(data, null, 2),
-    forceOverwrite: true
-  })
   // types
   files.push({
     fileName: 'a2s.types.ts',

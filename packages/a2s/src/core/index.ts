@@ -29,6 +29,13 @@ export async function runGenerate(overwrite: boolean) {
     if (!apiDoc) {
       console.error('获取Api接口数据为空')
       process.exit(-1)
+    } else {
+      // 保存获取到的api数据
+      await writeToFile(
+        resolve(process.cwd(), 'node_modules/.a2s/a2s.apis.json'),
+        JSON.stringify(apiDoc, null, 2),
+        true
+      )
     }
   } catch (error) {
     console.error('接口数据获取错误\n', error)
