@@ -1,8 +1,14 @@
 {
   "name": "@zidong/a2s",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "根据接口数据源生成前端代码",
-  "keywords": ["openapi", "swagger", "yapi", "typescript", "generator"],
+  "keywords": [
+    "openapi",
+    "swagger",
+    "yapi",
+    "typescript",
+    "generator"
+  ],
   "license": "MIT",
   "main": "dist/index.js",
   "author": "erguotou525@gmail.com",
@@ -20,20 +26,21 @@
     "start": "ts-node bin/a2s.ts generate -y"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "eta": "^1.12.2",
-    "fs-extra": "^10.0.0",
-    "inquirer": "^8.1.1",
+    "axios": "^0.26.0",
+    "eta": "^1.12.3",
+    "fs-extra": "^10.0.1",
+    "inquirer": "^8.2.0",
     "ora": "^5.4.1",
-    "prettier": "^2.3.2"
+    "prettier": "^2.5.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.11",
-    "@types/inquirer": "^7.3.2",
-    "@types/prettier": "^2.3.2",
-    "openapi-types": "^9.1.0",
-    "ts-node": "^10.1.0",
-    "typescript": "^4.3.5"
+    "@types/fs-extra": "^9.0.13",
+    "@types/inquirer": "^8.2.0",
+    "@types/json-schema": "^7.0.7",
+    "@types/prettier": "^2.4.4",
+    "openapi-types": "^10.0.0",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

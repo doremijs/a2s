@@ -1,13 +1,24 @@
 /* eslint-disable */
 import { requestAdapter } from './a2s.adapter'
-import type { RequestBody, RequestQuery } from './a2s.types'
 import type { ApiDocuments } from './a2s.namespace'
+import type { RequestBody, RequestQuery, Method } from './a2s.types'
 
 /**
  * 将参数拆分为 query 和 body
  */
-function extract(args: RequestBody | any, queryList: string[], paramList: string[]) {
+function extract(
+  method: Method,
+  args: RequestBody | any,
+  queryList: string[],
+  paramList: string[]
+) {
   if (args && typeof args === 'object') {
+    if (method.toUpperCase() === 'GET') {
+      return {
+        query: args,
+        body: null,
+      }
+    }
     const query: RequestQuery = {}
     const body: RequestBody = {}
     Object.keys(args).forEach(key => {
@@ -56,7 +67,7 @@ export const services = {
         return requestAdapter<<%~ include('openapi.resp', { responses: api.responses }) %>>({
           url: replacePath('<%= path %>', args),
           method: '<%= method.toUpperCase() %>',
-          ...extract(args, [<% queryList.forEach(q => {%>
+          ...extract('<%= method.toUpperCase() %>', args, [<% queryList.forEach(q => {%>
           '<%=q.name%>',
           <% }) %>], [<% paramList.forEach(p => {%>
           '<%=p.name%>',

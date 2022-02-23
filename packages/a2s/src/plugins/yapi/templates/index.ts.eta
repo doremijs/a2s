@@ -1,12 +1,23 @@
 /* eslint-disable */
 import { requestAdapter } from './a2s.adapter'
-import type { RequestBody, RequestQuery } from './a2s.types'
+import type { RequestBody, RequestQuery, Method } from './a2s.types'
 
 /**
  * 将参数拆分为 query 和 body
  */
-function extract(args: RequestBody | any, queryList: string[], paramList: string[]) {
+function extract(
+  method: Method,
+  args: RequestBody | any,
+  queryList: string[],
+  paramList: string[]
+) {
   if (args && typeof args === 'object') {
+    if (method.toUpperCase() === 'GET') {
+      return {
+        query: args,
+        body: null,
+      }
+    }
     const query: RequestQuery = {}
     const body: RequestBody = {}
     Object.keys(args).forEach(key => {
@@ -50,10 +61,10 @@ export const services = {
       '<%= key %>'(<%~ include('yapi.args',item)%>){
         return requestAdapter<<%~ include('schema.any', item.res_body) %>>({
           "url": replacePath('<%= item.query_path.path%>',args),
-          "method": '<%= item.method%>',
-          ...extract(args,[<% item.req_query.forEach(q => {%>
+          "method": '<%= method.toUpperCase() %>',
+          ...extract('<%= method.toUpperCase() %>', args, [<% item.req_query.forEach(q => {%>
             '<%= q.name%>',
-          <% }) %>],[<% item.req_params.forEach(p => {%>
+          <% }) %>], [<% item.req_params.forEach(p => {%>
             '<%= p.name%>',
             <% }) %>])
         })

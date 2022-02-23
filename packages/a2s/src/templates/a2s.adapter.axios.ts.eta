@@ -15,28 +15,37 @@ export function setToken(_newToken: string) {
 export async function requestAdapter<T<%~ include('dataPath.extend', it) %>>(args: RequestFunctionArgs): Promise<ResponseObject<T<%~ include('dataPath.path', it) %>>> {
   const { url, method, query, body, done = true } = args
   const token = getToken()
-  const { status, data, statusText } = await axios.request({
-    url,
-    method,
-    baseURL: done ? 'https://your.api.com/v1' : 'https://mock.your.api.com/v1',
-    params: query,
-    data: body,
-    responseType: 'json',
-    headers: token
-      ? {
-          Authorization: `Bearer ${token}`
-        }
-      : {}
-  })
-  if (status < 300 && status >= 200) {
-    return {
-      error: false,
-      data: (data as T)<%~ include('dataPath.path', it) %>
+  try {
+    const { status, data, statusText } = await axios.request({
+      url,
+      method,
+      baseURL: done ? 'https://your.api.com/v1' : 'https://mock.your.api.com/v1',
+      params: query,
+      data: body,
+      responseType: 'json',
+      headers: token
+        ? {
+            Authorization: `Bearer ${token}`
+          }
+        : {}
+    })
+    if (status < 300 && status >= 200) {
+      return {
+        error: false,
+        data: (data as T)<%~ include('dataPath.path', it) %>
+      }
     }
-  }
-  return {
-    error: true,
-    data: null,
-    message: statusText
+    return {
+      error: true,
+      data: null,
+      message: data?.message ?? statusText
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      error: true,
+      data: null,
+      message: error?.message || '发生错误'
+    }
   }
 }

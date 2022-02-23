@@ -21,7 +21,7 @@ export interface OpenAPIDataSourceOptions {
   /**
    * 自定义请求头内容
    */
-  headers: Record<string, unknown>
+  headers: Record<string, string | number | boolean>
 }
 
 templates.define(
