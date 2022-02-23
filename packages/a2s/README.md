@@ -3,6 +3,10 @@
 目标是对[y2s](https://www.npmjs.com/package/y2s)做一次升级以支持更多的api文档，用法和`y2s`基本一致。
 
 ## 版本历史
+- 0.0.9
+  - 升级依赖版本并修复`prettier`的一个配置警告
+  - 修复`axios`没有进行`try-catch`的拦截错误
+  - 优化`GET`请求下没有`query`参数时参数全部进入`body`的问题
 - 0.0.8
   - 修复`a2s.apis.json`文件生成时机不对的问题
   - 修复`type=array`时没有提供`items`导致生成报错的问题
