@@ -9,7 +9,10 @@ export function extract(
   args: RequestQuery | RequestBody,
   queryList: string[],
   paramList: string[]
-) {
+): {
+  query: RequestQuery | null,
+  body: RequestBody | null
+} {
   if (args && typeof args === 'object') {
     if (method.toUpperCase() === 'GET') {
       return {
