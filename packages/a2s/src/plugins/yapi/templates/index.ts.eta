@@ -1,49 +1,6 @@
 /* eslint-disable */
 import { requestAdapter } from './a2s.adapter'
-import type { RequestBody, RequestQuery, Method } from './a2s.types'
-
-/**
- * 将参数拆分为 query 和 body
- */
-function extract(
-  method: Method,
-  args: RequestBody | any,
-  queryList: string[],
-  paramList: string[]
-) {
-  if (args && typeof args === 'object') {
-    if (method.toUpperCase() === 'GET') {
-      return {
-        query: args,
-        body: null,
-      }
-    }
-    const query: RequestQuery = {}
-    const body: RequestBody = {}
-    Object.keys(args).forEach(key => {
-      if (queryList.includes(key)) {
-        query[key] = (args as RequestBody)[key] as RequestQuery
-      } else if (!paramList.includes(key)) {
-        body[key] = (args as RequestBody)[key]
-      }
-    })
-    return { query, body }
-  }
-  return { query: {}, body: {} } 
-}
-
-/**
- * 路径参数插值
- */
-function replacePath(path: string, pathValueMap?: any) {
-  return path
-    .replace(/\/\{(\w+)}/g, (_, str) => {
-      return `/${(pathValueMap as Record<string, string | number>)[str]}`
-    })
-    .replace(/\/:(\w+)/g, (_, str) => {
-      return `/${(pathValueMap as Record<string, string | number>)[str]}`
-    })
-}
+import { extract, replacePath } from './a2s.utils'
 
 <% var keyList = []%>
 export const services = {
@@ -61,8 +18,8 @@ export const services = {
       '<%= key %>'(<%~ include('yapi.args',item)%>){
         return requestAdapter<<%~ include('schema.any', item.res_body) %>>({
           "url": replacePath('<%= item.query_path.path%>',args),
-          "method": '<%= method.toUpperCase() %>',
-          ...extract('<%= method.toUpperCase() %>', args, [<% item.req_query.forEach(q => {%>
+          "method": '<%= item.method.toUpperCase() %>',
+          ...extract('<%= item.method.toUpperCase() %>', args, [<% item.req_query.forEach(q => {%>
             '<%= q.name%>',
           <% }) %>], [<% item.req_params.forEach(p => {%>
             '<%= p.name%>',

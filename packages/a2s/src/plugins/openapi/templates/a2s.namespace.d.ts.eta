@@ -1,4 +1,7 @@
 /* eslint-disable */
+interface BasicDto {
+  [key: string]: any
+}
 export declare namespace ApiDocuments {
   <%~ include('openapi.schemas', { schemas: it.schemas }) %>
   <%~ include('openapi.responses', { schemas: it.responses }) %>

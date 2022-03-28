@@ -23,17 +23,16 @@ args?: any
   <% /* body */ %>
   <% if (hasBody) { %>
     <% if(it.req_body_type === "form") { %>
-    {
       <% it.req_body_form.forEach(item => { %>
         <% if(item.type === "text") { %>
           <%~ include('yapi.comment',item) %>
-          <%= item.name %><%= Number(item.required) ? '' : '?' %> : number | boolean | string
+          // <%= item.name %><%= Number(item.required) ? '' : '?' %> : number | boolean | string
         <% } else if(item.type === "file") { %>
           <%~ include('yapi.comment',item) %>
-          <%= item.name %><%= Number(item.required) ? '' : '?' %> : File
+          // <%= item.name %><%= Number(item.required) ? '' : '?' %> : File
         <% } %>
       <% }) %>
-    }
+    FormData
     <% } else if (it.req_body_other && it.req_body_other.length) { %>
       <% var body = JSON.parse(it.req_body_other) %>
       <%~ include('schema.any', body) %>
