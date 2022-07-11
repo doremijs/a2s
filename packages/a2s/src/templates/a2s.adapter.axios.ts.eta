@@ -45,6 +45,7 @@ export async function requestAdapter<T<%~ include('dataPath.extend', it) %>>(arg
     return {
       error: true,
       data: null,
+      // @ts-ignore
       message: error?.message || '发生错误'
     }
   }
