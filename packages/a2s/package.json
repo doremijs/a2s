@@ -1,6 +1,6 @@
 {
   "name": "@zidong/a2s",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "根据接口数据源生成前端代码",
   "keywords": [
     "openapi",
