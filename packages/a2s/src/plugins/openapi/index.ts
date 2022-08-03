@@ -74,7 +74,6 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
             if (error) {
               reject(error)
             } else {
-              console.log(options)
               resolve(options.openapi)
             }
           })
