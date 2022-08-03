@@ -3,6 +3,7 @@ import { compile, renderFile, templates } from 'eta'
 import { readFileSync } from 'fs'
 import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
+import swaggerConvert from 'swagger2openapi'
 import { DataSourceConfig, DataSourcePlugin } from '../../config'
 import { addWarnMessages, formatFileContent, generateCommonFiles, trimKey } from '../../generator'
 
@@ -11,6 +12,10 @@ export interface OpenAPIDataSourceOptions {
    * openapi的json数据地址
    */
   apiUrl: string
+  /**
+   * 是否是 swagger 2.0 规范
+   */
+  isVersion2?: boolean
   /**
    * 如果openapi的数据获取外层有basic auth验证时使用
    */
@@ -62,9 +67,25 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
       headers: pluginConfig.headers
     })
     if (status < 300 && status >= 200) {
-      return data as OpenAPIV3.Document
+      // swagger 2.0 版本用 swagger2openapi 下载
+      if (pluginConfig.isVersion2) {
+        const ret = await new Promise((resolve, reject) => {
+          swaggerConvert.convertObj(data, { patch: true, warnOnly: true }, (error, options) => {
+            if (error) {
+              reject(error)
+            } else {
+              console.log(options)
+              resolve(options.openapi)
+            }
+          })
+        })
+        return ret as OpenAPIV3.Document
+      } else {
+        return data as OpenAPIV3.Document
+      }
+    } else {
+      return null
     }
-    return null
   },
   async onRenderTemplate(config, data) {
     const components = data.components ?? {}

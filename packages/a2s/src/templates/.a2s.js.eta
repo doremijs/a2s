@@ -10,6 +10,8 @@ module.exports = {
     openapi: {
       // 数据源地址
       apiUrl: 'https://your.company.com/apis-json',
+      // 是否是 swagger 2.0 标准
+      // isVersion2: false
       // basicAuth: {
       //   username: '',
       //   password: ''

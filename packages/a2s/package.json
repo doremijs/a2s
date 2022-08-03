@@ -1,6 +1,6 @@
 {
   "name": "@zidong/a2s",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "根据接口数据源生成前端代码",
   "keywords": [
     "openapi",
@@ -26,12 +26,14 @@
     "start": "ts-node bin/a2s.ts generate -y"
   },
   "dependencies": {
+    "@types/node": "^17.0.19",
     "axios": "^0.26.0",
     "eta": "^1.12.3",
     "fs-extra": "^10.0.1",
     "inquirer": "^8.2.0",
     "ora": "^5.4.1",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "swagger2openapi": "^7.0.8"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",

@@ -3,6 +3,8 @@
 目标是对[y2s](https://www.npmjs.com/package/y2s)做一次升级以支持更多的api文档，用法和`y2s`基本一致。
 
 ## 版本历史
+- 0.0.15
+  - 添加 swagger 2.0 规范支持，通过一个`openapi.isVersion2`参数支持
 - 0.0.13
   - ts 类型优化
 - 0.0.9
