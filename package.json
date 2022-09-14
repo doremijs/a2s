@@ -1,6 +1,6 @@
 {
   "name": "@doremijs/a2s",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "根据接口数据源生成前端代码",
   "keywords": [
     "openapi",
@@ -24,7 +24,7 @@
     "prepublishOnly": "npm run build",
     "config": "ts-node bin/a2s.ts init -y",
     "start": "ts-node bin/a2s.ts generate -y",
-    "postinstall": "husky install",
+    "setup": "husky install",
     "lint": "eslint . --fix"
   },
   "dependencies": {

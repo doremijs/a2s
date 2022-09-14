@@ -34,13 +34,13 @@
 ## 安装
 ```sh
 # yarn
-yarn add -D @zidong/a2s
+yarn add -D @doremijs/a2s
 # or npm
-npm i --save-dev @zidong/a2s
+npm i --save-dev @doremijs/a2s
 # or yarn global
-yarn global add @zidong/a2s
+yarn global add @doremijs/a2s
 # or npm global
-npm i -g @zidong/a2s
+npm i -g @doremijs/a2s
 ```
 
 ## 初始化配置文件
@@ -55,14 +55,14 @@ a2s init
 
 ## 配置项
 ```js
-/** @type {import('@zidong/a2s/dist/types').DataSourceConfig} */
+/** @type {import('@doremijs/a2s/dist/types').DataSourceConfig} */
 module.exports = {
   // 自定义插件
   plugins: [/** require('a2s-custom-plugin') */],
   // 数据源类型
   dataSourceOptions: {
     // key支持openapi和yapi以及插件额外支持的name值，值为具体每个插件的参数
-    /** @type {import('@zidong/a2s/types').OpenApiDataSourceConfig} */
+    /** @type {import('@doremijs/a2s/types').OpenApiDataSourceConfig} */
     openapi: {
       // 数据源地址
       apiUrl: 'http://api.your.company/apis-json',
@@ -128,8 +128,15 @@ async function doRequest() {
 
 ## 发布
 ```bash
-npm publish --access public
+npm publish
 ```
 
 ## 淘宝源主动更新
-https://npm.taobao.org/sync/@zidong/a2s
+https://npm.taobao.org/sync/@doremijs/a2s
+
+## 开发
+
+```sh
+pnpm install
+pnpm setup
+```
