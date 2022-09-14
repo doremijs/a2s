@@ -23,3 +23,7 @@ yarn-error.log*
 *.tsbuildinfo
 coverage
 .history
+
+src/services
+.a2s.js
+bin/a2s.js
