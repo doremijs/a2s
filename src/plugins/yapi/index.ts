@@ -9,6 +9,10 @@ export interface YAPIDataSourceOptions {
   apiUrl: string
   projectId: number
   token: string
+  /**
+   * 自定义请求头内容
+   */
+  headers: Record<string, string | number | boolean>
 }
 
 templates.define(
@@ -28,6 +32,7 @@ export const yapiPlugin: DataSourcePlugin<YAPIDocument, YAPIDataSourceOptions> =
     const { status, data } = await axios.get('/api/plugin/export', {
       baseURL: pluginConfig.apiUrl,
       timeout: 60000,
+      headers: pluginConfig.headers,
       params: {
         token: pluginConfig.token,
         pid: pluginConfig.projectId,
@@ -37,6 +42,9 @@ export const yapiPlugin: DataSourcePlugin<YAPIDocument, YAPIDataSourceOptions> =
       }
     })
     if (status < 300 && status >= 200) {
+      if (data.errcode) {
+        throw new Error(`${data.errcode}: ${data.errmsg}`)
+      }
       return data as YAPIDocument
     }
     return null
