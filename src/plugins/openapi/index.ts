@@ -5,7 +5,13 @@ import { OpenAPIV3 } from 'openapi-types'
 import { resolve } from 'path'
 import swaggerConvert from 'swagger2openapi'
 import { DataSourceConfig, DataSourcePlugin } from '../../config'
-import { addWarnMessages, formatFileContent, generateCommonFiles, trimKey } from '../../generator'
+import {
+  addWarnMessages,
+  fixKey,
+  formatFileContent,
+  generateCommonFiles,
+  trimKey
+} from '../../generator'
 
 export interface OpenAPIDataSourceOptions {
   /**
@@ -97,10 +103,10 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
     files.push({
       fileName: 'a2s.namespace.d.ts',
       content: formatFileContent(
-        (await renderFile(
-          resolve(__dirname, './templates/a2s.namespace.d.ts.eta'),
-          components
-        )) as string
+        (await renderFile(resolve(__dirname, './templates/a2s.namespace.d.ts.eta'), {
+          components,
+          fixKey
+        })) as string
       )
     })
     // index
@@ -112,6 +118,7 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
           components,
           paths: data.paths,
           trimKey,
+          fixKey,
           addWarnMessages,
           /**
            * 将parameters里的请求参数拆分成params和queryList

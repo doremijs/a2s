@@ -4,7 +4,7 @@
   <% if (resp && resp.schema) { %>
     <% Object.keys(resp.schema || {}).forEach(key => { %>
       <% var schema = resp.schema[key]
-      %>export interface <%= key %> extends BasicDto <% if('$ref' in schema) { %>
+      %>export interface <%= it.fixKey(key) %> extends BasicDto <% if('$ref' in schema) { %>
         = <% =schema['$ref'] %>
       <% } else { %>
         <%~ include('schema.object', { obj: schema }) %>

@@ -21,7 +21,7 @@ export const services = {
         <% keyList.push(key) %>
       <% } %>
       '<%= key %>'(<%~ include('openapi.args', { queryList: queryList, paramList: paramList, requestBody: api.requestBody }) %>) {
-        return requestAdapter<<%~ include('openapi.resp', { responses: api.responses }) %>>({
+        return requestAdapter<<%~ include('openapi.resp', { responses: api.responses, fixKey: it.fixKey }) %>>({
           url: replacePath('<%= path %>', args),
           method: '<%= method.toUpperCase() %>',
           ...extract('<%= method.toUpperCase() %>', args, [<% queryList.forEach(q => {%>

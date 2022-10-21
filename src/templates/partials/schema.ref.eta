@@ -1,2 +1,2 @@
 <% var splited = it.ref.split('/') %>
-ApiDocuments.<%= splited[splited.length - 1] %>
+ApiDocuments.<%= (splited[splited.length - 1]).replace(/[.]/g, '_') %>

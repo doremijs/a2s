@@ -18,6 +18,14 @@ export function trimKey(str: string) {
 }
 
 /**
+ * 修复key中一些错误的字符，兼容特殊的API场景
+ * @param key 对象的键
+ */
+export function fixKey(key: string) {
+  return key.replace(/[.]/g, '_')
+}
+
+/**
  * 延迟展示警告文字，避免破坏ora输出
  * @param str 字符串
  */

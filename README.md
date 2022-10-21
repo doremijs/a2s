@@ -3,6 +3,8 @@
 目标是对[y2s](https://www.npmjs.com/package/y2s)做一次升级以支持更多的api文档，用法和`y2s`基本一致。
 
 ## 版本历史
+- 0.0.18
+  - 修复 swagger 中 schema path 中存在`.`特殊符号导致生成错误的问题
 - 0.0.17
   - YAPI 请求添加 headers 参数
 - 0.0.15

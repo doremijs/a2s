@@ -3,7 +3,7 @@
   <% var content = resp.content ? (resp.content['application/json'] || null) : null %>
   <% if(content) { %>
     <% if('$ref' in content.schema) { %>
-      <%~ include('schema.ref', { ref: content.schema['$ref'] } ) %>
+      <%~ include('schema.ref', { ref: it.fixKey(content.schema['$ref']) } ) %>
     <% } else { %>
       <%~ include('schema.any', content.schema ) %>
     <% } %>
