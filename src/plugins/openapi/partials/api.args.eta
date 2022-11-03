@@ -1,5 +1,5 @@
-<% var content = it.requestBody && it.requestBody.content %>
-<% var body = content && ((content['application/json'] && content['application/json'].schema) || (content['multipart/form-data'] && content['multipart/form-data'].schema)) || null %>
+<% var content = it.requestBody && (it.requestBody.content || it.requestBody.$ref) %>
+<% var body = content && (it.requestBody.$ref ? it.requestBody : ((content['application/json'] && content['application/json'].schema) || (content['multipart/form-data'] && content['multipart/form-data'].schema))) || null %>
 <% if (!it.paramList.length && !it.queryList.length && !body) { %>
 args?: any
 <% } else { %>
