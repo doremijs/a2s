@@ -1,6 +1,6 @@
 {
   "name": "@doremijs/a2s",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "根据接口数据源生成前端代码",
   "keywords": [
     "openapi",

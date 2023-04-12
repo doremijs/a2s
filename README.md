@@ -3,6 +3,8 @@
 目标是对[y2s](https://www.npmjs.com/package/y2s)做一次升级以支持更多的api文档，用法和`y2s`基本一致。
 
 ## 版本历史
+- 0.0.20
+  - 修复 AllOf/AnyOf 生成的数组[]在新一行导致无法格式化的问题
 - 0.0.19
   - 修复 OpenAPI 规范中请求body直接是 `$ref` 而没有content的兼容问题
 - 0.0.18
