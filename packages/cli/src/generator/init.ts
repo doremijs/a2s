@@ -1,8 +1,8 @@
+import { resolve } from 'path'
 /**
  * 初始化配置文件
  */
 import { renderFile } from 'eta'
-import { resolve } from 'path'
 import { writeToFile } from '.'
 
 export const configFileName = '.a2s.js'
@@ -17,5 +17,5 @@ export const configFilePath = resolve(process.cwd(), configFileName)
  */
 export async function initConfig(overwrite: boolean) {
   const content = await renderFile(configTemplateFilePath, {})
-  await writeToFile(configFilePath, content as string, overwrite, '配置文件已存在，是否覆盖？')
+  await writeToFile(configFilePath, content as string, overwrite, 'Config file already exists, overwrite?')
 }

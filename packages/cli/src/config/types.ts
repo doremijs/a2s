@@ -28,10 +28,6 @@ export interface DataSourceConfig<DataSourceOptions = unknown> {
    */
   dataSourceOptions: Record<string, DataSourceOptions>
   /**
-   * 适配器类型
-   */
-  requestAdapter: 'axios' | 'taro' | null
-  /**
    * 生成的service相关文件的存储位置
    */
   outputPath: string

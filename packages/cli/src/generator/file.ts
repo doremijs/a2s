@@ -31,27 +31,25 @@ export async function writeToFile(
         encoding: 'utf8'
       })
       return true
-    } else {
-      const ret = await prompt({
-        type: 'confirm',
-        name: 'rewrite',
-        message: rewriteMsg || `文件${filename}已存在，是否覆盖？`
-      })
-      if (ret.rewrite) {
-        writeFileSync(filePath, content, {
-          encoding: 'utf8'
-        })
-        return true
-      }
-      return false
     }
-  } else {
-    ensureFileSync(filePath)
-    writeFileSync(filePath, content, {
-      encoding: 'utf8'
+    const ret = await prompt({
+      type: 'confirm',
+      name: 'rewrite',
+      message: rewriteMsg || `File ${filename} already exists, overwrite?`
     })
-    return true
+    if (ret.rewrite) {
+      writeFileSync(filePath, content, {
+        encoding: 'utf8'
+      })
+      return true
+    }
+    return false
   }
+  ensureFileSync(filePath)
+  writeFileSync(filePath, content, {
+    encoding: 'utf8'
+  })
+  return true
 }
 
 export function formatFileContent(str: string) {

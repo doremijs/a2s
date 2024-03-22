@@ -50,28 +50,5 @@ export async function generateCommonFiles(): Promise<GenerateFiles> {
       (await renderFile(resolve(__dirname, '../templates/a2s.types.ts.eta'), {})) as string
     )
   })
-  // utils
-  files.push({
-    fileName: 'a2s.utils.ts',
-    content: formatFileContent(
-      (await renderFile(resolve(__dirname, '../templates/a2s.utils.ts.eta'), {})) as string
-    )
-  })
-  // adapter
-  files.push({
-    fileName: 'a2s.adapter.ts',
-    content: formatFileContent(
-      (await renderFile(
-        resolve(__dirname, `../templates/a2s.adapter.${config.requestAdapter}.ts.eta`),
-        {
-          dataPath: config.dataPath
-            ? Array.isArray(config.dataPath)
-              ? config.dataPath
-              : [config.dataPath]
-            : null
-        }
-      )) as string
-    )
-  })
   return files
 }

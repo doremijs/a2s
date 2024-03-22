@@ -47,10 +47,10 @@ templates.define(
 //   'openapi.parameters',
 //   compile(readFileSync(resolve(__dirname, './partials/components.parameters.eta'), 'utf-8'))
 // )
-// templates.define(
-//   'openapi.requestBodies',
-//   compile(readFileSync(resolve(__dirname, './partials/components.requestBodies.eta'), 'utf-8'))
-// )
+templates.define(
+  'openapi.requestBodies',
+  compile(readFileSync(resolve(__dirname, './partials/components.requestBodies.eta'), 'utf-8'))
+)
 
 templates.define(
   'openapi.args',
@@ -61,6 +61,7 @@ templates.define(
   'openapi.resp',
   compile(readFileSync(resolve(__dirname, './partials/api.response.eta'), 'utf-8'))
 )
+
 
 export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSourceOptions> = {
   name: 'openapi',
@@ -85,15 +86,42 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
           })
         })
         return ret as OpenAPIV3.Document
-      } else {
-        return data as OpenAPIV3.Document
       }
-    } else {
-      return null
+      return data as OpenAPIV3.Document
     }
+    return null
   },
   async onRenderTemplate(config, data) {
     const components = data.components ?? {}
+
+    /**
+   * 将parameters里的请求参数拆分成params和queryList
+   * @param parameters openapi.parametes
+   * @returns 路径参数集合与query参数集合
+   */
+    function extractParameters(
+      parameters: (OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject)[] = []
+    ) {
+      const paramList: OpenAPIV3.ParameterObject[] = []
+      const queryList: OpenAPIV3.ParameterObject[] = []
+      for (const parameter of parameters) {
+        let _parameter: OpenAPIV3.ParameterObject
+        if ('$ref' in parameter) {
+          const splited = parameter.$ref.split('/')
+          const ref = components.parameters?.[splited[splited.length - 1]]
+          _parameter = ref as OpenAPIV3.ParameterObject
+        } else {
+          _parameter = parameter
+        }
+        if (_parameter.in === 'path') {
+          paramList.push(_parameter)
+        } else if (_parameter.in === 'query') {
+          queryList.push(_parameter)
+        }
+      }
+      return { queryList, paramList }
+    }
+
     const files: {
       fileName: string
       content: string
@@ -105,7 +133,9 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
       content: formatFileContent(
         (await renderFile(resolve(__dirname, './templates/a2s.namespace.d.ts.eta'), {
           components,
-          fixKey
+          paths: data.paths,
+          fixKey,
+          extractParameters
         })) as string
       )
     })
@@ -120,33 +150,7 @@ export const openapiPlugin: DataSourcePlugin<OpenAPIV3.Document, OpenAPIDataSour
           trimKey,
           fixKey,
           addWarnMessages,
-          /**
-           * 将parameters里的请求参数拆分成params和queryList
-           * @param parameters openapi.parametes
-           * @returns 路径参数集合与query参数集合
-           */
-          extractParameters(
-            parameters: (OpenAPIV3.ReferenceObject | OpenAPIV3.ParameterObject)[] = []
-          ) {
-            const paramList: OpenAPIV3.ParameterObject[] = []
-            const queryList: OpenAPIV3.ParameterObject[] = []
-            parameters.forEach(parameter => {
-              let _parameter: OpenAPIV3.ParameterObject
-              if ('$ref' in parameter) {
-                const splited = parameter['$ref'].split('/')
-                const ref = components.parameters?.[splited[splited.length - 1]]
-                _parameter = ref as OpenAPIV3.ParameterObject
-              } else {
-                _parameter = parameter
-              }
-              if (_parameter.in === 'path') {
-                paramList.push(_parameter)
-              } else if (_parameter.in === 'query') {
-                queryList.push(_parameter)
-              }
-            })
-            return { queryList, paramList }
-          }
+          extractParameters
         })) as string
       )
     })

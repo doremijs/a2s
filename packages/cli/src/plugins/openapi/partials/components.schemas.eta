@@ -1,9 +1,9 @@
 <% Object.keys(it.schemas || {}).forEach(key => { %>
   <% var schema = it.schemas[key]
-  %>export interface <%= it.fixKey(key) %> extends BasicDto <% if('$ref' in schema) { %>
+  %>export type <%= it.fixKey(key) %> = <% if('$ref' in schema) { %>
     = <% =schema['$ref'] %>
   <% } else { %>
     <%~ include('schema.object', { obj: schema }) %>
-  <% } %>
+  <% } %> & BasicDto
 
 <% }) %>

@@ -24,6 +24,7 @@ yarn-error.log*
 coverage
 .history
 
-src/services
+services/
+api/
 .a2s.js
 bin/a2s.js

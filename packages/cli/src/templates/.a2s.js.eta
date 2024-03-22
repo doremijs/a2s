@@ -33,8 +33,6 @@ module.exports = {
   outputPath: 'src/services',
   // 是否覆盖固定生成的几个文件？一般不建议取消，保持文件最新
   overwrite: true,
-  // [Optional, default: 'axios'] 基于什么框架去生成代码
-  requestAdapter: 'axios',
   // [Optional, default: true] 是否对api的分组名和名称进行trim，减少空格
   trim: true,
   // [Optional, default: ['a2s.adapter.ts']] 生成时可忽略的文件集合，当 a2s.adapter.ts 文件根据业务发生变更后需要ignore

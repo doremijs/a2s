@@ -1,0 +1,34 @@
+/* eslint-disable */
+interface BasicDto {
+  [key: string]: any
+}
+export declare namespace APISchemas {
+  <%~ include('openapi.schemas', { schemas: it.components.schemas, fixKey: it.fixKey }) %>
+  <%~ include('openapi.responses', { schemas: it.components.responses, fixKey: it.fixKey }) %>
+}
+
+export declare namespace APIParameters {
+  <% Object.keys(it.paths || {}).forEach(path => { %>
+    <% var pathGroup = it.paths[path] %>
+    <% Object.keys(pathGroup || {}).forEach(method => { %>
+      <% var api = pathGroup[method] %>
+      <% var { queryList, paramList } = it.extractParameters(api.parameters) %>
+      <% if(queryList.length) { %>
+      export type <%= api.operationId %>Query = {<% queryList.forEach(q => {%>
+        '<%=q.name%>'<% if(q.required) { %><% } else { %>?<% } %>: <%~ include('schema.any', q.schema) %>;
+        <% }) %>
+      }
+      <% } %>
+      <% if(paramList.length) { %>
+      export type <%= api.operationId %>Params = {<% paramList.forEach(p => {%>
+        '<%=p.name%>': <%~ include('schema.any', p.schema) %>;
+        <% }) %>
+      }
+      <% } %>
+    <% }) %>
+  <% }) %>
+}
+
+export declare namespace APIRequestBodies {
+  <%~ include('openapi.requestBodies', { requestBodies: it.components.requestBodies, fixKey: it.fixKey }) %>
+}

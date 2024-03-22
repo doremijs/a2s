@@ -1,7 +1,7 @@
 import ora from 'ora'
 import { resolve } from 'path'
 import { DataSourcePlugin, loadConfig } from '../config'
-import { writeToFile } from '../generator'
+import { GenerateFiles, writeToFile } from '../generator'
 import '../generator/partials'
 import { openapiPlugin, yapiPlugin } from '../plugins'
 
@@ -14,9 +14,9 @@ export async function runGenerate(overwrite: boolean) {
   pluginMap[openapiPlugin.name] = openapiPlugin
   pluginMap[yapiPlugin.name] = yapiPlugin
   if (config.plugins?.length) {
-    config.plugins.forEach(plugin => {
+    for (const plugin of config.plugins) {
       pluginMap[plugin.name] = plugin
-    })
+    }
   }
   // 当前只支持单个配置
   const type = Object.keys(config.dataSourceOptions)[0]
@@ -27,7 +27,7 @@ export async function runGenerate(overwrite: boolean) {
     // 加载api数据
     apiDoc = await currentPlugin.onFetchOriginData?.(config)
     if (!apiDoc) {
-      console.error('获取Api接口数据为空')
+      console.error('API data is empty')
       process.exit(-1)
     } else {
       // 保存获取到的api数据
@@ -38,17 +38,17 @@ export async function runGenerate(overwrite: boolean) {
       )
     }
   } catch (error) {
-    console.error('接口数据获取错误\n', error)
+    console.error('Error when fetching\n', error)
     spinner.stop()
     process.exit(-1)
   }
   spinner.stop()
   // 渲染模板
-  let files
+  let files: GenerateFiles
   try {
     files = await currentPlugin.onRenderTemplate(config, apiDoc)
   } catch (error) {
-    console.error('模板渲染错误\n', error)
+    console.error('Error when rendering template\n', error)
     spinner.stop()
     process.exit(-1)
   }
@@ -62,7 +62,7 @@ export async function runGenerate(overwrite: boolean) {
         file.forceOverwrite ?? overwrite
       )
     } catch (error) {
-      console.error(`文件 ${file.fileName} 写入错误\n`, error)
+      console.error(`Error when write to file ${file.fileName}\n`, error)
     }
   }
   console.log('Done!')
